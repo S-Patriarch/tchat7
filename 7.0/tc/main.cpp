@@ -73,17 +73,19 @@ int main()
     isOk_ = chat::authorization(tcp, user, exchange);
     ptl::hcrs();
 
-    if (isOk_) {
-        std::cout << std::endl;
-        std::cout << color.esc_tb(ptl::Color::GREEN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": Добро пожаловать "
-                  << user.s_userName
-                  << " "
-                  << user.s_userFamaly
-                  << '\n';
+    if (!isOk_) {
+        // действия : повторный вход | регистрация | выход из чата
     }
+
+    std::cout << std::endl;
+    std::cout << color.esc_tb(ptl::Color::GREEN)
+              << "chat"
+              << color.esc_c()
+              << ": Добро пожаловать "
+              << user.s_userName
+              << " "
+              << user.s_userFamaly
+              << '\n';
 
 
 
