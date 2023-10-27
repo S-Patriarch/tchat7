@@ -88,7 +88,7 @@ out_message(ptl::pTCPClient& tcp,
         std::cout << color.esc_tb(ptl::Color::GREEN)
                   << "chat"
                   << color.esc_c()
-                  << ": Для Вас есть сообщения...\n";
+                  << ": Для Вас есть сообщения...\n\n";
 
         // разбиваем полученную строку от сервера на подстроки
         std::vector<std::string> subStrings__ {};
@@ -98,6 +98,7 @@ out_message(ptl::pTCPClient& tcp,
              std::cout << i << std::endl;
         }
 
+        std::cout << std::endl;
         isResultReturn_ = true;
     }
 

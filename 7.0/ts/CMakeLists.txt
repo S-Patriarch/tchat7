@@ -20,4 +20,9 @@ set(SOURCE_CPP main.cpp
 
 add_executable(${PROJECT_NAME} ${SOURCE_CPP})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE -lmariadbclient -lpthread -lz -lm -ldl)
+target_link_libraries(${PROJECT_NAME} PRIVATE -lmariadbclient
+                                              -lpthread
+                                              -lz
+                                              -lm
+                                              -ldl
+                                              -lpthread)
