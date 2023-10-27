@@ -23,7 +23,9 @@ const std::uint16_t MAX_PACKET_SIZE {4096};
 const std::string IP_ADDRESS_SERVER {"127.0.0.1"};
 const std::string GIVE_ME_MESSAGES_FROM_THE_DATABASE {"100"};
 
-const std::string OK            {"OK"};
+const std::string OK {"OK"};
+const std::string NO {"NO"};
+
 const std::string QUIT          {"QUIT"};
 const std::string AUTHORIZATION {"AUTHORIZATION"};
 const std::string REGISTRATION  {"REGISTRATION"};

@@ -171,10 +171,6 @@ db_authorization(std::vector<std::string>& v,
                 if (row[1] == iHash_) {
                     exchange.strSendAnswer =
                         (idUser_ + "|" + userName_ + "|" + userFamaly_ + "|");
-                    std::cout << color.esc_tb(ptl::Color::GREEN)
-                              << "chat"
-                              << color.esc_c()
-                              << ": Успешно\n";
                     isResultReturn_ = true;
                 }
 
@@ -263,10 +259,6 @@ db_registration(std::vector<std::string>& v,
                 std::string idUser_ = row[0];
                 exchange.strSendAnswer =
                    (idUser_ + "|" + v[1] + "|" + v[2] + "|");
-                std::cout << color.esc_tb(ptl::Color::GREEN)
-                          << "chat"
-                          << color.esc_c()
-                          << ": Успешно\n";
                 isResultReturn_ = true;
             }
         }
@@ -316,11 +308,6 @@ db_delete(std::vector<std::string>& v)
             mysql_close(&mysql);
             return isResultReturn_;
         }
-
-        std::cout << color.esc_tb(ptl::Color::GREEN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": Успешно\n";
 
         isResultReturn_ = true;
     }
@@ -413,11 +400,6 @@ db_edit(std::vector<std::string>& v)
             return isResultReturn_;
         }
 
-        std::cout << color.esc_tb(ptl::Color::GREEN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": Успешно\n";
-
         isResultReturn_ = true;
     }
     else {
@@ -502,16 +484,10 @@ db_message(std::vector<std::string>& v,
                 str1_ = row[4];
                 str2_ = row[3];
                 exchange.strSendAnswer = (str1_ + " : " + str2_ + "|");
-                std::cout << color.esc_tb(ptl::Color::GREEN)
-                          << "chat"
-                          << color.esc_c()
-                          << ": Успешно\n";
-
                 isResultReturn_ = true;
             }
-        }
-        else {
-            exchange.strSendAnswer = "";
+
+            mysql_free_result(res);
         }
     }
     else {

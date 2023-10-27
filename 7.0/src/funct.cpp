@@ -66,4 +66,24 @@ out_server_quit()
               << ": До новых встреч\n";
 }
 
+//------------------------------------------------------------------------------
+void
+out_OK_NO(const std::string& s_)
+{
+    ptl::pColor color;
+
+    if (s_ == "OK") {
+        std::cout << color.esc_tb(ptl::Color::GREEN)
+                  << "chat"
+                  << color.esc_c()
+                  << ": OK\n";
+    }
+    else if (s_ == "NO") {
+        std::cout << color.esc_tb(ptl::Color::GREEN)
+                  << "chat"
+                  << color.esc_c()
+                  << ": NO\n";
+    }
+}
+
 } // manespace chat

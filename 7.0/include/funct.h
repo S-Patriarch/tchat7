@@ -35,6 +35,12 @@ parsing_string(const std::string&, const char);
 void
 out_server_quit();
 
+//------------------------------------------------------------------------------
+// Вывод короткого сообщения chat: OK или chat: NO.
+//
+void
+out_OK_NO(const std::string&);
+
 } // namespace chat
 
 #endif // __CHAT_ADDFUNCT_H__

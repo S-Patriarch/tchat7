@@ -27,6 +27,12 @@ namespace chat
 bool
 authorization(ptl::pTCPClient&, User&, Exchange&);
 
+//------------------------------------------------------------------------------
+// Вывод из БД непрочитанных сообщений для клиента.
+//
+bool
+out_message(ptl::pTCPClient&, User&, Exchange&);
+
 } // namespace chat
 
 #endif // __CHAT_CUSER_H__

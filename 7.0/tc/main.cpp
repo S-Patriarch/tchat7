@@ -77,7 +77,9 @@ int main()
         // действия : повторный вход | регистрация | выход из чата
     }
 
-    std::cout << std::endl;
+    ptl::clrscr();
+    chat::get_logo(chat::CLIENT);
+
     std::cout << color.esc_tb(ptl::Color::GREEN)
               << "chat"
               << color.esc_c()
@@ -87,6 +89,14 @@ int main()
               << user.s_userFamaly
               << '\n';
 
+    isOk_ = chat::out_message(tcp, user, exchange);
+    if (!isOk_) {
+        // действия : ...
+        std::cout << color.esc_tb(ptl::Color::GREEN)
+                  << "chat"
+                  << color.esc_c()
+                  << ": Для Вас нет сообщений...\n";
+    }
 
 
 
@@ -110,25 +120,3 @@ int main()
     ptl::scrs();
     return 0;
 }
-
-/*
-    tcp.Send(chat::GIVE_ME_MESSAGES_FROM_THE_DATABASE);
-
-    strRead_ = tcp.read();
-
-    if (strRead_ != "E:") {
-        std::cout << std::endl;
-        std::cout << color.esc_tb(ptl::Color::GREEN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": Для Вас есть сообщения...\n";
-
-        // разбиваем полученную строку от сервера на подстроки
-        std::vector<std::string> subStrings__ {};
-        subStrings__ = chat::parsing_string(strRead_, '|');
-
-        for (const auto& i : subStrings__) {
-             std::cout << i << std::endl;
-        }
-    }
-*/

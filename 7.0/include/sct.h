@@ -17,6 +17,7 @@ struct User {
     std::string s_userID {};     // id пользователя
     std::string s_userName {};   // имя пользователя
     std::string s_userFamaly {}; // фамилия пользователя
+    std::string s_userEmail {};  // email пользователя
 };
 
 struct Exchange {

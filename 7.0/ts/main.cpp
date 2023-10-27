@@ -51,7 +51,7 @@ int main()
     std::cout << color.esc_tb(ptl::Color::GREEN)
               << "chat"
               << color.esc_c()
-              << ": Клиент подключен\n";
+              << ": OK\n";
 
     std::vector<std::string> subStringRequest {};
     bool isOk_ {false};
@@ -76,10 +76,12 @@ int main()
             if (isOk_) {
                 // вход клиента выполнен успешно
                 // strSendAnswer {id|user_name|user_surname|}
+                chat::out_OK_NO(chat::OK);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
-                exchange.strSendAnswer = "";
+                chat::out_OK_NO(chat::NO);
+                exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
         }
@@ -90,10 +92,12 @@ int main()
             if (isOk_) {
                 // регистрация клиента выполнена успешно
                 // strSendAnswer {id|user_name|user_surname|}
+                chat::out_OK_NO(chat::OK);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
-                exchange.strSendAnswer = "";
+                chat::out_OK_NO(chat::NO);
+                exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
         }
@@ -103,11 +107,13 @@ int main()
             if (isOk_) {
                 // удаление клиента выполнено успешно
                 // strSendAnswer {OK|}
+                chat::out_OK_NO(chat::OK);
                 exchange.strSendAnswer = chat::OK + "|";
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
-                exchange.strSendAnswer = "";
+                chat::out_OK_NO(chat::NO);
+                exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
         }
@@ -117,11 +123,13 @@ int main()
             if (isOk_) {
                 // редактирование данных клиента выполнено успешно
                 // strSendAnswer {OK|}
+                chat::out_OK_NO(chat::OK);
                 exchange.strSendAnswer = chat::OK + "|";
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
-                exchange.strSendAnswer = "";
+                chat::out_OK_NO(chat::NO);
+                exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
         }
@@ -131,10 +139,12 @@ int main()
             if (isOk_) {
                 // редактирование данных клиента выполнено успешно
                 // strSendAnswer {mess_date : mess_text|}
+                chat::out_OK_NO(chat::OK);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
-                exchange.strSendAnswer = "";
+                chat::out_OK_NO(chat::NO);
+                exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
         }
