@@ -80,6 +80,7 @@ int main()
     ptl::clrscr();
     chat::get_logo(chat::CLIENT);
     chat::get_info();
+    chat::get_help();
 
     std::cout << color.esc_tb(ptl::Color::GREEN)
               << "chat"
@@ -125,6 +126,17 @@ int main()
             tcp.exit();
             ptl::scrs();
             return 0;
+        }
+        else if (std::strncmp("-h", strTemp_.c_str(), 2) == 0 ||
+            std::strncmp("-H", strTemp_.c_str(), 2) == 0 ||
+            std::strncmp("-?", strTemp_.c_str(), 2) == 0) {
+            ptl::clrscr();
+            chat::get_info();
+            chat::get_help();
+        }
+        else if (std::strncmp("-e", strTemp_.c_str(), 2) == 0 ||
+            std::strncmp("-E", strTemp_.c_str(), 2) == 0) {
+            //
         }
 
     } // while (true) {}

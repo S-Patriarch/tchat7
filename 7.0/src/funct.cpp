@@ -47,23 +47,12 @@ parsing_string(const std::string& str,
 void
 out_server_quit()
 {
-    ptl::pColor color;
+    std::cout << std::endl;
+    std::cout << "M: Клиент покинул чат\n"
+              << "M: Сервер завершает работу...\n";
 
     std::cout << std::endl;
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Клиент покинул чат\n"
-              << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Сервер завершает работу...\n";
-
-    std::cout << std::endl;
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": До новых встреч\n";
+    std::cout << "M: До новых встреч\n";
 }
 
 //------------------------------------------------------------------------------
@@ -85,19 +74,11 @@ out_client_quit(User& user)
 void
 out_OK_NO(const std::string& s_)
 {
-    ptl::pColor color;
-
     if (s_ == "OK") {
-        std::cout << color.esc_tb(ptl::Color::GREEN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": OK\n";
+        std::cout << "OK\n";
     }
     else if (s_ == "NO") {
-        std::cout << color.esc_tb(ptl::Color::GREEN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": NO\n";
+        std::cout << "NO\n";
     }
 }
 

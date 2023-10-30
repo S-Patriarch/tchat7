@@ -113,8 +113,7 @@ db_authorization(std::vector<std::string>& v,
     MYSQL_RES* res;
     MYSQL_ROW  row;
 
-    ptl::pColor color;
-    ptl::pSha   sha;
+    ptl::pSha sha;
 
     bool isResultReturn_ {false};
     std::string queryString_ {};
@@ -122,12 +121,10 @@ db_authorization(std::vector<std::string>& v,
     std::string userName_ {};
     std::string userFamaly_ {};
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Вход пользователя "
+    std::cout << "M: Вход пользователя "
               << v[1]
-              << "...\n";
+              << "... "
+              << std::flush;
 
     std::string iHash_ = sha.sha1(v[2].c_str(), sizeof(v[2].c_str()) - 1);
 
@@ -197,18 +194,15 @@ db_registration(std::vector<std::string>& v,
     MYSQL_RES* res;
     MYSQL_ROW  row;
 
-    ptl::pColor color;
-    ptl::pSha   sha;
+    ptl::pSha sha;
 
     bool isResultReturn_ {false};
     std::string queryString_ {};
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Регистрация пользователя "
+    std::cout << "M: Регистрация пользователя "
               << v[3]
-              << "...\n";
+              << "... "
+              << std::flush;
 
     std::string iHash_ = sha.sha1(v[4].c_str(), sizeof(v[4].c_str()) - 1);
 
@@ -279,16 +273,12 @@ db_delete(std::vector<std::string>& v)
 {
     MYSQL mysql;
 
-    ptl::pColor color;
-
     bool isResultReturn_ {false};
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Удаление пользователя "
+    std::cout << "M: Удаление пользователя "
               << v[1]
-              << "...\n";
+              << "... "
+              << std::flush;
 
     mysql_init(&mysql);
 
@@ -329,8 +319,7 @@ db_edit(std::vector<std::string>& v)
     MYSQL_RES* res;
     MYSQL_ROW  row;
 
-    ptl::pColor color;
-    ptl::pSha   sha;
+    ptl::pSha sha;
 
     bool isResultReturn_ {false};
 
@@ -338,12 +327,10 @@ db_edit(std::vector<std::string>& v)
     std::int32_t queryState_ {};
     std::string idUser_ {};
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Редактирование данных пользователя "
+    std::cout << "M: Редактирование данных пользователя "
               << v[1]
-              << "...\n";
+              << "... "
+              << std::flush;
 
     std::string iHash_ = sha.sha1(v[2].c_str(), sizeof(v[2].c_str()) - 1);
 
@@ -421,20 +408,16 @@ db_message(std::vector<std::string>& v,
     MYSQL_RES* res;
     MYSQL_ROW  row;
 
-    ptl::pColor color;
-
     bool isResultReturn_ {false};
 
     std::string queryString_ {};
     std::int32_t queryState_ {};
     std::string idUser_ {};
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Предоставление не прочитанных сообщений пользователю "
+    std::cout << "M: Предоставление не прочитанных сообщений пользователю "
               << v[1]
-              << "...\n";
+              << "... "
+              << std::flush;
 
     mysql_init(&mysql);
 
@@ -480,10 +463,11 @@ db_message(std::vector<std::string>& v,
         std::string str2_ {};
 
         if (res = mysql_store_result(&mysql)) {
+            exchange.strSendAnswer = "";
             while (row = mysql_fetch_row(res)) {
                 str1_ = row[4];
                 str2_ = row[3];
-                exchange.strSendAnswer = (str1_ + " : " + str2_ + "|");
+                exchange.strSendAnswer += (str1_ + " : " + str2_ + "|");
                 isResultReturn_ = true;
             }
 

@@ -25,19 +25,20 @@ int main()
 
     chat::Exchange exchange;
 
+    ptl::clrscr();
+    ptl::hcrs();
+    chat::get_logo(chat::SERVER);
+
+    std::cout << "M: База данных... " << std::flush;
+
     bool isCheckDB_ = chat::db_existence_check();
     if (!isCheckDB_) {
         chat::db_create();
     }
 
-    ptl::clrscr();
-    ptl::hcrs();
-    chat::get_logo(chat::SERVER);
+    chat::out_OK_NO(chat::OK);
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Жду подключения клиента...\n";
+    std::cout << "M: Подключение клиента... " << std::flush;
 
     try {
         // SERVER
@@ -51,10 +52,7 @@ int main()
         return 0;
     }
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": OK\n";
+    chat::out_OK_NO(chat::OK);
 
     std::vector<std::string> subStringRequest {};
     bool isOk_ {false};

@@ -9,7 +9,6 @@
 
 #include "../include/sct.h"
 
-#include "ptl/pcolor.h"
 #include "ptl/psha.h"
 #include "ptl/pexcept.h"
 
