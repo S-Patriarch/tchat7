@@ -79,14 +79,13 @@ int main()
 
     ptl::clrscr();
     chat::get_logo(chat::CLIENT);
+    chat::get_info();
 
     std::cout << color.esc_tb(ptl::Color::GREEN)
               << "chat"
               << color.esc_c()
               << ": Добро пожаловать "
-              << user.s_userName
-              << " "
-              << user.s_userFamaly
+              << user.s_userName << " " << user.s_userFamaly
               << '\n';
 
     isOk_ = chat::out_message(tcp, user, exchange);
@@ -98,25 +97,35 @@ int main()
                   << ": Для Вас нет сообщений...\n";
     }
 
+    char msgBuffer[chat::MAX_PACKET_SIZE];
+    while (true) {
+        // организация : ввод сообщения
 
+        std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
 
+        std::cout << color.esc_tb(ptl::Color::WHITE)
+                  << user.s_userName << " " << user.s_userFamaly
+                  << color.esc_c()
+                  << "\nmsg: ";
 
+        ptl::scrs();
+        fgets(msgBuffer, sizeof(msgBuffer), stdin);
+        ptl::hcrs();
 
-    exchange.strSendAnswer = "QUIT|-q|";
-    tcp.Send(exchange.strSendAnswer);
+        // организация : обработка введенного сообщения,
+        //               отправка введенного сообщения
 
-    tcp.exit();
+        std::string strTemp_ = chat::remove_last(msgBuffer, '\n');
 
-    std::cout << std::endl;
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": До новых встреч "
-              << user.s_userName
-              << " "
-              << user.s_userFamaly
-              << '\n';
+        if (std::strncmp("-q", strTemp_.c_str(), 2) == 0 ||
+            std::strncmp("-Q", strTemp_.c_str(), 2) == 0) {
+            exchange.strSendAnswer = "QUIT|-q|";
+            tcp.Send(exchange.strSendAnswer);
+            chat::out_client_quit(user);
+            tcp.exit();
+            ptl::scrs();
+            return 0;
+        }
 
-    ptl::scrs();
-    return 0;
+    } // while (true) {}
 }

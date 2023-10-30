@@ -467,7 +467,7 @@ db_message(std::vector<std::string>& v,
 
         queryString_ =
                 "SELECT * FROM message "
-                "WHERE id_recipient = " + idUser_;
+                "WHERE id_recipient = " + idUser_ + " AND mess_read = 0";
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {

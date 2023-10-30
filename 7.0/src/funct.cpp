@@ -68,6 +68,21 @@ out_server_quit()
 
 //------------------------------------------------------------------------------
 void
+out_client_quit(User& user)
+{
+    ptl::pColor color;
+
+    std::cout << std::endl;
+    std::cout << color.esc_tb(ptl::Color::GREEN)
+              << "chat"
+              << color.esc_c()
+              << ": До новых встреч "
+              << user.s_userName << " " << user.s_userFamaly
+              << '\n';
+}
+
+//------------------------------------------------------------------------------
+void
 out_OK_NO(const std::string& s_)
 {
     ptl::pColor color;

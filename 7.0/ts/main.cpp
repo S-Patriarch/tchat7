@@ -140,7 +140,7 @@ int main()
         else if (subStringRequest[0] == chat::MESSAGE) {
             isOk_ = chat::db_message(subStringRequest, exchange);
             if (isOk_) {
-                // редактирование данных клиента выполнено успешно
+                // выюорка не прочитанных сообщений клиента выполнена успешно
                 // strSendAnswer {mess_date : mess_text|}
                 chat::out_OK_NO(chat::OK);
                 tcp.Send(exchange.strSendAnswer);
@@ -152,19 +152,4 @@ int main()
             }
         }
     } // while (true) {}
-
-    tcp.exit();
-
-    std::cout << std::endl;
-    std::cout << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": Сервер завершает работу...\n"
-              << color.esc_tb(ptl::Color::GREEN)
-              << "chat"
-              << color.esc_c()
-              << ": До новых встреч\n";
-
-    ptl::scrs();
-    return 0;
 }

@@ -7,6 +7,8 @@
 #ifndef __CHAT_ADDFUNCT_H__
 #define __CHAT_ADDFUNCT_H__
 
+#include "../include/sct.h"
+
 #include "ptl/pcolor.h"
 
 #include <iostream>
@@ -34,6 +36,12 @@ parsing_string(const std::string&, const char);
 //
 void
 out_server_quit();
+
+//------------------------------------------------------------------------------
+// Вывод информации о завершении работы клиента.
+//
+void
+out_client_quit(User&);
 
 //------------------------------------------------------------------------------
 // Вывод короткого сообщения chat: OK или chat: NO.
