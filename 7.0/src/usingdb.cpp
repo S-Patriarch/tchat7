@@ -398,21 +398,24 @@ db_edit(std::vector<std::string>& v)
 }
 
 //------------------------------------------------------------------------------
-// v {MESSAGE, user_email}
+// v {MESSAGE_FROM_DATABASE, user_email}
 //
 bool
-db_message(std::vector<std::string>& v,
-           Exchange& exchange)
+db_message_from_database(std::vector<std::string>& v,
+                         Exchange& exchange)
 {
     MYSQL      mysql;
     MYSQL_RES* res;
+    MYSQL_RES* res2;
     MYSQL_ROW  row;
+    MYSQL_ROW  row2;
 
     bool isResultReturn_ {false};
 
     std::string queryString_ {};
     std::int32_t queryState_ {};
     std::string idUser_ {};
+    std::string idSender_ {};
 
     std::cout << "M: Предоставление не прочитанных сообщений пользователю "
               << v[1]
@@ -459,15 +462,39 @@ db_message(std::vector<std::string>& v,
             return isResultReturn_;
         }
 
+        std::string str0_ {};
         std::string str1_ {};
         std::string str2_ {};
 
         if (res = mysql_store_result(&mysql)) {
             exchange.strSendAnswer = "";
             while (row = mysql_fetch_row(res)) {
-                str1_ = row[4];
-                str2_ = row[3];
-                exchange.strSendAnswer += (str1_ + " : " + str2_ + "|");
+                str1_     = row[4];
+                str2_     = row[3];
+                idSender_ = row[1];
+
+                queryString_ =
+                    "SELECT * FROM user "
+                    "WHERE id = " + idSender_;
+                queryState_ = mysql_query(&mysql, queryString_.c_str());
+                if (queryState_) {
+                    std::cout << "E: " << mysql_error(&mysql) << '\n';
+                    mysql_close(&mysql);
+                    return isResultReturn_;
+                }
+                res2 = mysql_store_result(&mysql);
+                row2 = mysql_fetch_row(res2);
+                mysql_free_result(res2);
+                if (row2 != NULL) {
+                    if (idSender_ == row2[0]) {
+                        str0_  = row2[1];
+                        str0_ += " ";
+                        str0_ += row2[2];
+                    }
+                }
+
+                exchange.strSendAnswer +=
+                    (str0_ + " : " + str1_ + " : " + str2_ + "|");
                 isResultReturn_ = true;
             }
 

@@ -49,10 +49,8 @@ out_server_quit()
 {
     std::cout << std::endl;
     std::cout << "M: Клиент покинул чат\n"
-              << "M: Сервер завершает работу...\n";
-
-    std::cout << std::endl;
-    std::cout << "M: До новых встреч\n";
+              << "M: Сервер завершает работу...\n"
+              << "M: До новых встреч\n";
 }
 
 //------------------------------------------------------------------------------
@@ -61,8 +59,7 @@ out_client_quit(User& user)
 {
     ptl::pColor color;
 
-    std::cout << std::endl;
-    std::cout << color.esc_tb(ptl::Color::GREEN)
+    std::cout << color.esc_tb(ptl::Color::CYAN)
               << "chat"
               << color.esc_c()
               << ": До новых встреч "

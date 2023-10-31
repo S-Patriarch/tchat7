@@ -61,15 +61,17 @@ int main()
         exchange.strReadRequest = tcp.read();
         subStringRequest = chat::parsing_string(exchange.strReadRequest, '|');
 
-        // subStringRequest {QUIT, -q[-Q]}
+        // subStringRequest {QUIT, user_email}
         if (subStringRequest[0] == chat::QUIT) {
-            if (std::strncmp("-q", subStringRequest[1].c_str(), 2) == 0 ||
-                std::strncmp("-Q", subStringRequest[1].c_str(), 2) == 0) {
-                chat::out_server_quit();
-                tcp.exit();
-                ptl::scrs();
-                return 0;
-            }
+            std::cout << "M: Клиент "
+                      << subStringRequest[1]
+                      << " покидает чат... ";
+            chat::out_OK_NO(chat::OK);
+
+            chat::out_server_quit();
+            tcp.exit();
+            ptl::scrs();
+            return 0;
         }
         // subStringRequest {AUTHORIZATION, user_email, password}
         else if (subStringRequest[0] == chat::AUTHORIZATION) {
@@ -134,12 +136,12 @@ int main()
                 tcp.Send(exchange.strSendAnswer);
             }
         }
-        // subStringRequest {MESSAGE, user_email}
-        else if (subStringRequest[0] == chat::MESSAGE) {
-            isOk_ = chat::db_message(subStringRequest, exchange);
+        // subStringRequest {MESSAGE_FROM_DATABASE, user_email}
+        else if (subStringRequest[0] == chat::MESSAGE_FROM_DATABASE) {
+            isOk_ = chat::db_message_from_database(subStringRequest, exchange);
             if (isOk_) {
                 // выюорка не прочитанных сообщений клиента выполнена успешно
-                // strSendAnswer {mess_date : mess_text|}
+                // strSendAnswer {id_sender : mess_date : mess_text|}
                 chat::out_OK_NO(chat::OK);
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -150,4 +152,5 @@ int main()
             }
         }
     } // while (true) {}
+
 }

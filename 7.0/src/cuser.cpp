@@ -22,19 +22,17 @@ authorization(ptl::pTCPClient& tcp,
     bool isResultReturn_ {false};
     char msgBuffer[chat::MAX_PACKET_SIZE];
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
+    std::cout << color.esc_tb(ptl::Color::CYAN)
               << "chat"
               << color.esc_c()
-              << ": Авторизация пользователя...\n";
+              << ": Авторизация пользователя...\n\n";
 
     // ввод логина пользователя
     std::cout << "Электронная почта: ";
 
     std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
 
-    std::cout << color.esc_tb(ptl::Color::WHITE);
     fgets(msgBuffer, sizeof(msgBuffer), stdin);
-    std::cout << color.esc_c();
 
     user.s_userEmail = chat::remove_last(msgBuffer, '\n');
     exchange.strSendAnswer =
@@ -80,12 +78,12 @@ out_message(ptl::pTCPClient& tcp,
 
     bool isResultReturn_ {false};
 
-    exchange.strSendAnswer = "MESSAGE|" + user.s_userEmail + "|";
+    exchange.strSendAnswer = "MESSAGE_FROM_DATABASE|" + user.s_userEmail + "|";
     tcp.Send(exchange.strSendAnswer);
     exchange.strReadRequest = tcp.read();
 
     if (exchange.strReadRequest != "NO") {
-        std::cout << color.esc_tb(ptl::Color::GREEN)
+        std::cout << color.esc_tb(ptl::Color::CYAN)
                   << "chat"
                   << color.esc_c()
                   << ": Для Вас есть сообщения...\n\n";
@@ -95,7 +93,11 @@ out_message(ptl::pTCPClient& tcp,
         subStrings__ = chat::parsing_string(exchange.strReadRequest, '|');
 
         for (const auto& i : subStrings__) {
-             std::cout << i << std::endl;
+            std::cout << color.esc_tb(ptl::Color::CYAN)
+                      << "M"
+                      << color.esc_c()
+                      << ": ";
+            std::cout << i << std::endl;
         }
 
         std::cout << std::endl;

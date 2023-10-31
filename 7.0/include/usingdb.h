@@ -61,7 +61,7 @@ db_edit(std::vector<std::string>&);
 // Предоставление не прочитанных сообщений клиента.
 //
 bool
-db_message(std::vector<std::string>&, Exchange&);
+db_message_from_database(std::vector<std::string>&, Exchange&);
 
 } // namespace chat
 

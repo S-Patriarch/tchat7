@@ -40,15 +40,15 @@ int main()
         return 0;
     }
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
+    std::cout << color.esc_tb(ptl::Color::CYAN)
               << "chat"
               << color.esc_c()
-              << ": Соединение с сервером установлено\n\n";
+              << ": Соединение с сервером установлено\n";
 
     bool isOk_{false};
 
 ///---
-//exchange.strSendAnswer = "REGISTRATION|chaos|chaos|apsk0529@mail.ru|chaos|";
+//exchange.strSendAnswer = "REGISTRATION|patriarch| |apsk0529-2@mail.ru|patriarch|";
 //tcp.Send(exchange.strSendAnswer);
 //exchange.strReadRequest = tcp.read();
 //std::cout << exchange.strReadRequest << "\n";
@@ -82,7 +82,7 @@ int main()
     chat::get_info();
     chat::get_help();
 
-    std::cout << color.esc_tb(ptl::Color::GREEN)
+    std::cout << color.esc_tb(ptl::Color::CYAN)
               << "chat"
               << color.esc_c()
               << ": Добро пожаловать "
@@ -92,7 +92,7 @@ int main()
     isOk_ = chat::out_message(tcp, user, exchange);
     if (!isOk_) {
         // действия : ...
-        std::cout << color.esc_tb(ptl::Color::GREEN)
+        std::cout << color.esc_tb(ptl::Color::CYAN)
                   << "chat"
                   << color.esc_c()
                   << ": Для Вас нет сообщений...\n";
@@ -104,14 +104,14 @@ int main()
 
         std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
 
-        std::cout << color.esc_tb(ptl::Color::WHITE)
-                  << user.s_userName << " " << user.s_userFamaly
-                  << color.esc_c()
+        std::cout << user.s_userName << " " << user.s_userFamaly
                   << "\nmsg: ";
 
         ptl::scrs();
         fgets(msgBuffer, sizeof(msgBuffer), stdin);
         ptl::hcrs();
+
+        std::cout << '\n';
 
         // организация : обработка введенного сообщения,
         //               отправка введенного сообщения
@@ -120,7 +120,7 @@ int main()
 
         if (std::strncmp("-q", strTemp_.c_str(), 2) == 0 ||
             std::strncmp("-Q", strTemp_.c_str(), 2) == 0) {
-            exchange.strSendAnswer = "QUIT|-q|";
+            exchange.strSendAnswer = "QUIT|" + user.s_userEmail + "|";
             tcp.Send(exchange.strSendAnswer);
             chat::out_client_quit(user);
             tcp.exit();

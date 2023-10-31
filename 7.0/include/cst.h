@@ -26,12 +26,13 @@ const std::string GIVE_ME_MESSAGES_FROM_THE_DATABASE {"100"};
 const std::string OK {"OK"};
 const std::string NO {"NO"};
 
-const std::string QUIT          {"QUIT"};
-const std::string AUTHORIZATION {"AUTHORIZATION"};
-const std::string REGISTRATION  {"REGISTRATION"};
-const std::string DELETE        {"DELETE"};
-const std::string EDIT          {"EDIT"};
-const std::string MESSAGE       {"MESSAGE"};
+const std::string QUIT                  {"QUIT"};
+const std::string AUTHORIZATION         {"AUTHORIZATION"};
+const std::string REGISTRATION          {"REGISTRATION"};
+const std::string DELETE                {"DELETE"};
+const std::string EDIT                  {"EDIT"};
+const std::string MESSAGE_FROM_DATABASE {"MESSAGE_FROM_DATABASE"};
+const std::string MESSAGE_TO_DATABASE   {"MESSAGE_TO_DATABASE"};
 
 } // namespace chat
 
