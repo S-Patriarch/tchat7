@@ -29,7 +29,7 @@ int main()
     ptl::hcrs();
     chat::get_logo(chat::SERVER);
 
-    std::cout << "M: База данных... " << std::flush;
+    std::cout << "M: Проверка базы данных... " << std::flush;
 
     bool isCheckDB_ = chat::db_existence_check();
     if (!isCheckDB_) {
@@ -61,7 +61,7 @@ int main()
         exchange.strReadRequest = tcp.read();
         subStringRequest = chat::parsing_string(exchange.strReadRequest, '|');
 
-        // subStringRequest {QUIT, user_email}
+        // subStringRequest {QUIT,user_email}
         if (subStringRequest[0] == chat::QUIT) {
             std::cout << "M: Клиент "
                       << subStringRequest[1]
@@ -73,7 +73,7 @@ int main()
             ptl::scrs();
             return 0;
         }
-        // subStringRequest {AUTHORIZATION, user_email, password}
+        // subStringRequest {AUTHORIZATION,user_email,password}
         else if (subStringRequest[0] == chat::AUTHORIZATION) {
             isOk_ = chat::db_authorization(subStringRequest, exchange);
             if (isOk_) {
@@ -88,13 +88,12 @@ int main()
                 tcp.Send(exchange.strSendAnswer);
             }
         }
-        // subStringRequest {REGISTRATION,
-        //                   user_name, user_surname, user_email, password}
+        // subStringRequest {REGISTRATION,user_name,user_surname,user_email,password}
         else if (subStringRequest[0] == chat::REGISTRATION) {
             isOk_ = chat::db_registration(subStringRequest, exchange);
             if (isOk_) {
                 // регистрация клиента выполнена успешно
-                // strSendAnswer {id|user_name|user_surname|}
+                // strSendAnswer {id|}
                 chat::out_OK_NO(chat::OK);
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -104,7 +103,7 @@ int main()
                 tcp.Send(exchange.strSendAnswer);
             }
         }
-        // subStringRequest {DELETE, user_email}
+        // subStringRequest {DELETE,id}
         else if (subStringRequest[0] == chat::DELETE) {
             isOk_ = chat::db_delete(subStringRequest);
             if (isOk_) {
@@ -120,7 +119,7 @@ int main()
                 tcp.Send(exchange.strSendAnswer);
             }
         }
-        // subStringRequest {EDIT, (OLD)user_email, (NEW)user_email, (NEW)password}
+        // subStringRequest {EDIT,(OLD)user_email,(NEW)user_email,(NEW)password}
         else if (subStringRequest[0] == chat::EDIT) {
             isOk_ = chat::db_edit(subStringRequest);
             if (isOk_) {
@@ -136,11 +135,11 @@ int main()
                 tcp.Send(exchange.strSendAnswer);
             }
         }
-        // subStringRequest {MESSAGE_FROM_DATABASE, user_email}
+        // subStringRequest {MESSAGE_FROM_DATABASE,id}
         else if (subStringRequest[0] == chat::MESSAGE_FROM_DATABASE) {
             isOk_ = chat::db_message_from_database(subStringRequest, exchange);
             if (isOk_) {
-                // выюорка не прочитанных сообщений клиента выполнена успешно
+                // выборка не прочитанных сообщений клиента выполнена успешно
                 // strSendAnswer {id_sender : mess_date : mess_text|}
                 chat::out_OK_NO(chat::OK);
                 tcp.Send(exchange.strSendAnswer);

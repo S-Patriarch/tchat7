@@ -16,6 +16,9 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
 
 namespace chat
 {
@@ -48,6 +51,12 @@ out_client_quit(User&);
 //
 void
 out_OK_NO(const std::string&);
+
+//------------------------------------------------------------------------------
+// Получение текущей даты.
+//
+std::string
+get_date();
 
 } // namespace chat
 

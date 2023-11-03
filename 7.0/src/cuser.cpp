@@ -27,34 +27,29 @@ authorization(ptl::pTCPClient& tcp,
               << color.esc_c()
               << ": Авторизация пользователя...\n\n";
 
+    exchange.strSendAnswer = "AUTHORIZATION|";
+
     // ввод логина пользователя
     std::cout << "Электронная почта: ";
-
     std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
-
     fgets(msgBuffer, sizeof(msgBuffer), stdin);
-
     user.s_userEmail = chat::remove_last(msgBuffer, '\n');
-    exchange.strSendAnswer =
-        "AUTHORIZATION|" + user.s_userEmail + "|";
+    exchange.strSendAnswer += user.s_userEmail + "|";
 
     // ввод пароля
     std::cout << "Пароль: ";
-
     std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
-
     std::cout << "\033[?25l";
     std::cout << color.esc_tr(color.getbkgcolor());
     fgets(msgBuffer, sizeof(msgBuffer), stdin);
     std::cout << color.esc_c();
     std::cout << "\033[?25h";
-
     exchange.strSendAnswer += chat::remove_last(msgBuffer, '\n') + "|";
 
     tcp.Send(exchange.strSendAnswer);
     exchange.strReadRequest = tcp.read();
 
-    if (exchange.strReadRequest != "") {
+    if (exchange.strReadRequest != "NO") {
         // strReadRequest {id|user_name|user_surname|}
         subStringRequest = chat::parsing_string(exchange.strReadRequest, '|');
 
@@ -70,6 +65,96 @@ authorization(ptl::pTCPClient& tcp,
 
 //------------------------------------------------------------------------------
 bool
+registration(ptl::pTCPClient& tcp,
+             User& user,
+             Exchange& exchange)
+{
+    ptl::pColor color;
+
+    std::vector<std::string> subStringRequest {};
+
+    bool isResultReturn_ {false};
+    char msgBuffer[chat::MAX_PACKET_SIZE];
+
+    std::cout << color.esc_tb(ptl::Color::CYAN)
+              << "chat"
+              << color.esc_c()
+              << ": Регистрация пользователя...\n\n";
+
+    exchange.strSendAnswer = "REGISTRATION|";
+
+    // ввод имени пользователя
+    std::cout << "Имя: ";
+    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
+    fgets(msgBuffer, sizeof(msgBuffer), stdin);
+    user.s_userName = chat::remove_last(msgBuffer, '\n');
+    exchange.strSendAnswer += user.s_userName + "|";
+
+    // ввод фамилии пользователя
+    std::cout << "Фамилия: ";
+    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
+    fgets(msgBuffer, sizeof(msgBuffer), stdin);
+    user.s_userFamaly = chat::remove_last(msgBuffer, '\n');
+    exchange.strSendAnswer += user.s_userFamaly + "|";
+
+    // ввод логина пользователя
+    std::cout << "Электронная почта: ";
+    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
+    fgets(msgBuffer, sizeof(msgBuffer), stdin);
+    user.s_userEmail = chat::remove_last(msgBuffer, '\n');
+    exchange.strSendAnswer += user.s_userEmail + "|";
+
+    // ввод пароля
+    std::cout << "Пароль: ";
+    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
+    std::cout << "\033[?25l";
+    std::cout << color.esc_tr(color.getbkgcolor());
+    fgets(msgBuffer, sizeof(msgBuffer), stdin);
+    std::cout << color.esc_c();
+    std::cout << "\033[?25h";
+    exchange.strSendAnswer += chat::remove_last(msgBuffer, '\n') + "|";
+
+    tcp.Send(exchange.strSendAnswer);
+    exchange.strReadRequest = tcp.read();
+
+    if (exchange.strReadRequest != "NO") {
+        // strReadRequest {id|}
+        subStringRequest = chat::parsing_string(exchange.strReadRequest, '|');
+        user.s_userID    = subStringRequest[0];
+        isResultReturn_  = true;
+    }
+
+    return isResultReturn_;
+}
+
+//------------------------------------------------------------------------------
+bool
+delete_user(ptl::pTCPClient& tcp,
+            User& user,
+            Exchange& exchange)
+{
+    bool isResultReturn_ {false};
+
+    exchange.strSendAnswer = "DELETE|" + user.s_userID + "|";
+
+    tcp.Send(exchange.strSendAnswer);
+    exchange.strReadRequest = tcp.read();
+
+    if (exchange.strReadRequest != "NO") {
+        // strReadRequest {OK|}
+        user.s_userID     = "";
+        user.s_userName   = "";
+        user.s_userFamaly = "";
+        user.s_userEmail  = "";
+
+        isResultReturn_  = true;
+    }
+
+    return isResultReturn_;
+}
+
+//------------------------------------------------------------------------------
+bool
 out_message(ptl::pTCPClient& tcp,
             User& user,
             Exchange& exchange)
@@ -78,16 +163,11 @@ out_message(ptl::pTCPClient& tcp,
 
     bool isResultReturn_ {false};
 
-    exchange.strSendAnswer = "MESSAGE_FROM_DATABASE|" + user.s_userEmail + "|";
+    exchange.strSendAnswer = "MESSAGE_FROM_DATABASE|" + user.s_userID + "|";
     tcp.Send(exchange.strSendAnswer);
     exchange.strReadRequest = tcp.read();
 
     if (exchange.strReadRequest != "NO") {
-        std::cout << color.esc_tb(ptl::Color::CYAN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": Для Вас есть сообщения...\n\n";
-
         // разбиваем полученную строку от сервера на подстроки
         std::vector<std::string> subStrings__ {};
         subStrings__ = chat::parsing_string(exchange.strReadRequest, '|');

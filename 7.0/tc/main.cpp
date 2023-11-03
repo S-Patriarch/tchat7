@@ -47,34 +47,20 @@ int main()
 
     bool isOk_{false};
 
-///---
-//exchange.strSendAnswer = "REGISTRATION|patriarch| |apsk0529-2@mail.ru|patriarch|";
-//tcp.Send(exchange.strSendAnswer);
-//exchange.strReadRequest = tcp.read();
-//std::cout << exchange.strReadRequest << "\n";
-///---
-//strSend_ = "REGISTRATION|Tester|Testerov|test@test.ru|Tester|";
-//tcp.Send(exchange.strSendAnswer);
-//exchange.strReadRequest = tcp.read();
-//std::cout << exchange.strReadRequest << "\n";
-///---
-//strSend_ = "EDIT|test@test.ru|test2@test2.ru|Test_Testerov|";
-//tcp.Send(exchange.strSendAnswer);
-//exchange.strReadRequest = tcp.read();
-//std::cout << exchange.strReadRequest << "\n";
-///---
-//strSend_ = "DELETE|test2@test2.ru|";
-//tcp.Send(exchange.strSendAnswer);
-//exchange.strReadRequest = tcp.read();
-//std::cout << exchange.strReadRequest << "\n";
-///---
-
     ptl::scrs();
     isOk_ = chat::authorization(tcp, user, exchange);
     ptl::hcrs();
 
     if (!isOk_) {
-        // действия : повторный вход | регистрация | выход из чата
+        // действия : регистрация | выход из чата
+        std::cout << '\n';
+        std::cout << color.esc_tb(ptl::Color::CYAN)
+                  << "chat"
+                  << color.esc_c()
+                  << ": Такого пользователя нет, пройдите регистрацию\n";
+        ptl::scrs();
+        isOk_ = chat::registration(tcp, user, exchange);
+        ptl::hcrs();
     }
 
     ptl::clrscr();
@@ -87,27 +73,20 @@ int main()
               << color.esc_c()
               << ": Добро пожаловать "
               << user.s_userName << " " << user.s_userFamaly
-              << '\n';
-
-    isOk_ = chat::out_message(tcp, user, exchange);
-    if (!isOk_) {
-        // действия : ...
-        std::cout << color.esc_tb(ptl::Color::CYAN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": Для Вас нет сообщений...\n";
-    }
+              << "\n\n";
 
     char msgBuffer[chat::MAX_PACKET_SIZE];
     while (true) {
-        // организация : ввод сообщения
+        // проверка на наличие в базе не прочитанных сообщений
+        isOk_ = chat::out_message(tcp, user, exchange);
 
-        std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
+        // организация : ввод сообщения
 
         std::cout << user.s_userName << " " << user.s_userFamaly
                   << "\nmsg: ";
 
         ptl::scrs();
+        std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
         fgets(msgBuffer, sizeof(msgBuffer), stdin);
         ptl::hcrs();
 
@@ -137,6 +116,46 @@ int main()
         else if (std::strncmp("-e", strTemp_.c_str(), 2) == 0 ||
             std::strncmp("-E", strTemp_.c_str(), 2) == 0) {
             //
+        }
+        else if (std::strncmp("-d", strTemp_.c_str(), 2) == 0 ||
+            std::strncmp("-D", strTemp_.c_str(), 2) == 0) {
+
+            isOk_ = chat::delete_user(tcp, user, exchange);
+
+            if (isOk_) {
+                ptl::clrscr();
+
+                ptl::scrs();
+                isOk_ = chat::authorization(tcp, user, exchange);
+                ptl::hcrs();
+
+                if (!isOk_) {
+                    // действия : регистрация | выход из чата
+                    std::cout << '\n';
+                    std::cout << color.esc_tb(ptl::Color::CYAN)
+                              << "chat"
+                              << color.esc_c()
+                              << ": Такого пользователя нет, пройдите регистрацию\n";
+                    ptl::scrs();
+                    isOk_ = chat::registration(tcp, user, exchange);
+                    ptl::hcrs();
+                }
+
+                ptl::clrscr();
+                chat::get_logo(chat::CLIENT);
+                chat::get_info();
+                chat::get_help();
+
+                std::cout << color.esc_tb(ptl::Color::CYAN)
+                          << "chat"
+                          << color.esc_c()
+                          << ": Добро пожаловать "
+                          << user.s_userName << " " << user.s_userFamaly
+                          << "\n\n";
+            }
+            else if (!isOk_) {
+                // действия :
+            }
         }
 
     } // while (true) {}

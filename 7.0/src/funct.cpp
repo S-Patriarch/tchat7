@@ -79,4 +79,18 @@ out_OK_NO(const std::string& s_)
     }
 }
 
+//------------------------------------------------------------------------------
+std::string
+get_date()
+{
+    std::chrono::system_clock::time_point today = std::chrono::system_clock::now();
+    std::time_t t = std::chrono::system_clock::to_time_t(today);
+
+    std::stringstream ss;
+    ss << std::put_time(std::localtime(&t), "%Y-%m-%d");
+    std::string currentDate = ss.str();
+
+    return currentDate;
+}
+
 } // manespace chat

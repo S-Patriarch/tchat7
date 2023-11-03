@@ -251,8 +251,7 @@ db_registration(std::vector<std::string>& v,
         if (row != NULL) {
             if (v[3] == row[3]) {
                 std::string idUser_ = row[0];
-                exchange.strSendAnswer =
-                   (idUser_ + "|" + v[1] + "|" + v[2] + "|");
+                exchange.strSendAnswer = (idUser_ + "|");
                 isResultReturn_ = true;
             }
         }
@@ -266,7 +265,7 @@ db_registration(std::vector<std::string>& v,
 }
 
 //------------------------------------------------------------------------------
-// v {DELETE, user_email}
+// v {DELETE, id}
 //
 bool
 db_delete(std::vector<std::string>& v)
@@ -275,9 +274,7 @@ db_delete(std::vector<std::string>& v)
 
     bool isResultReturn_ {false};
 
-    std::cout << "M: Удаление пользователя "
-              << v[1]
-              << "... "
+    std::cout << "M: Удаление пользователя... "
               << std::flush;
 
     mysql_init(&mysql);
@@ -290,7 +287,7 @@ db_delete(std::vector<std::string>& v)
 
         std::string queryString_ =
             "DELETE FROM user "
-            "WHERE user_email = \'" + v[1] + "\'";
+            "WHERE id = " + v[1];
 
         std::int32_t queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
@@ -398,7 +395,7 @@ db_edit(std::vector<std::string>& v)
 }
 
 //------------------------------------------------------------------------------
-// v {MESSAGE_FROM_DATABASE, user_email}
+// v {MESSAGE_FROM_DATABASE, id}
 //
 bool
 db_message_from_database(std::vector<std::string>& v,
@@ -417,9 +414,7 @@ db_message_from_database(std::vector<std::string>& v,
     std::string idUser_ {};
     std::string idSender_ {};
 
-    std::cout << "M: Предоставление не прочитанных сообщений пользователю "
-              << v[1]
-              << "... "
+    std::cout << "M: Предоставление не прочитанных сообщений... "
               << std::flush;
 
     mysql_init(&mysql);
@@ -431,29 +426,8 @@ db_message_from_database(std::vector<std::string>& v,
         mysql_set_character_set(&mysql, "utf8");
 
         queryString_ =
-            "SELECT * FROM user "
-            "WHERE user_email = \'" + v[1] + "\'";
-
-        queryState_ = mysql_query(&mysql, queryString_.c_str());
-        if (queryState_) {
-            std::cout << "E: " << mysql_error(&mysql) << '\n';
-            mysql_close(&mysql);
-            return isResultReturn_;
-        }
-
-        res = mysql_store_result(&mysql);
-        row = mysql_fetch_row(res);
-        mysql_free_result(res);
-
-        if (row != NULL) {
-            if (v[1] == row[3]) {
-                idUser_ = row[0];
-            }
-        }
-
-        queryString_ =
                 "SELECT * FROM message "
-                "WHERE id_recipient = " + idUser_ + " AND mess_read = 0";
+                "WHERE id_recipient = " + v[1] + " AND mess_read = 0";
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
