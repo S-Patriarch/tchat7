@@ -9,6 +9,7 @@
 
 #include "../include/cst.h"
 #include "../include/sct.h"
+#include "../include/info.h"
 #include "../include/funct.h"
 
 #include "ptl/pcolor.h"

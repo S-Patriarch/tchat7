@@ -121,7 +121,7 @@ db_authorization(std::vector<std::string>& v,
     std::string userName_ {};
     std::string userFamaly_ {};
 
-    std::cout << "M: Вход пользователя "
+    std::cout << "Вход пользователя "
               << v[1]
               << "... "
               << std::flush;
@@ -199,7 +199,7 @@ db_registration(std::vector<std::string>& v,
     bool isResultReturn_ {false};
     std::string queryString_ {};
 
-    std::cout << "M: Регистрация пользователя "
+    std::cout << "Регистрация пользователя "
               << v[3]
               << "... "
               << std::flush;
@@ -274,7 +274,7 @@ db_delete(std::vector<std::string>& v)
 
     bool isResultReturn_ {false};
 
-    std::cout << "M: Удаление пользователя... "
+    std::cout << "Удаление пользователя... "
               << std::flush;
 
     mysql_init(&mysql);
@@ -324,7 +324,7 @@ db_edit(std::vector<std::string>& v)
     std::int32_t queryState_ {};
     std::string idUser_ {};
 
-    std::cout << "M: Редактирование данных пользователя "
+    std::cout << "Редактирование данных пользователя "
               << v[1]
               << "... "
               << std::flush;
@@ -414,7 +414,7 @@ db_message_from_database(std::vector<std::string>& v,
     std::string idUser_ {};
     std::string idSender_ {};
 
-    std::cout << "M: Предоставление не прочитанных сообщений... "
+    std::cout << "Предоставление не прочитанных сообщений... "
               << std::flush;
 
     mysql_init(&mysql);
