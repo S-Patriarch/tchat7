@@ -58,6 +58,12 @@ out_OK_NO(const std::string&);
 std::string
 get_date();
 
+//------------------------------------------------------------------------------
+// Получение текущего времени.
+//
+std::string
+get_time();
+
 } // namespace chat
 
 #endif // __CHAT_ADDFUNCT_H__

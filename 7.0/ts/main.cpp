@@ -24,7 +24,8 @@ int main()
 {
     ptl::pTCPServer tcp;
     ptl::pColor     color;
-    ptl::pLogger    log(chat::FILE_LOGGER);
+
+    ptl::pLogger logger(chat::FILE_LOGGER);
 
     chat::Exchange exchange;
 
@@ -42,8 +43,10 @@ int main()
     }
     chat::out_OK_NO(chat::OK);
 
-    strLogger_ = chat::get_date() + " : Проверка базы данных... " + chat::OK;
-    log.write(strLogger_);
+    strLogger_ =
+        chat::get_date() + " " + chat::get_time() +
+        " : Проверка базы данных... " + chat::OK;
+    logger.write(strLogger_);
 
     std::cout << "Подключение клиента... " << std::flush;
     try {
@@ -59,8 +62,10 @@ int main()
     }
     chat::out_OK_NO(chat::OK);
 
-    strLogger_ = chat::get_date() + " : Подключение клиента... " + chat::OK;
-    log.write(strLogger_);
+    strLogger_ =
+        chat::get_date() + " " + chat::get_time() +
+        " : Подключение клиента... " + chat::OK;
+    logger.write(strLogger_);
 
     std::vector<std::string> subStringRequest {};
     bool isOk_ {false};
@@ -75,9 +80,9 @@ int main()
             chat::out_OK_NO(chat::OK);
 
             strLogger_ =
-                chat::get_date() +
+                chat::get_date() + " " + chat::get_time() +
                 " : Клиент " + subStringRequest[1] + " покидает чат... " + chat::OK;
-            log.write(strLogger_);
+            logger.write(strLogger_);
 
             chat::out_server_quit();
             tcp.exit();
@@ -88,7 +93,7 @@ int main()
         else if (subStringRequest[0] == chat::AUTHORIZATION) {
             isOk_ = chat::db_authorization(subStringRequest, exchange);
             strLogger_ =
-                chat::get_date() +
+                chat::get_date() + " " + chat::get_time() +
                 " : Вход пользователя " + subStringRequest[1] + "... ";
 
             if (isOk_) {
@@ -96,13 +101,13 @@ int main()
                 // strSendAnswer {id|user_name|user_surname|}
                 chat::out_OK_NO(chat::OK);
                 strLogger_ += chat::OK;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -111,7 +116,7 @@ int main()
         else if (subStringRequest[0] == chat::REGISTRATION) {
             isOk_ = chat::db_registration(subStringRequest, exchange);
             strLogger_ =
-                chat::get_date() +
+                chat::get_date() + " " + chat::get_time() +
                 " : Регистрация пользователя " + subStringRequest[3] + "... ";
 
             if (isOk_) {
@@ -119,13 +124,13 @@ int main()
                 // strSendAnswer {id|}
                 chat::out_OK_NO(chat::OK);
                 strLogger_ += chat::OK;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -134,7 +139,7 @@ int main()
         else if (subStringRequest[0] == chat::DELETE) {
             isOk_ = chat::db_delete(subStringRequest);
             strLogger_ =
-                chat::get_date() +
+                chat::get_date() + " " + chat::get_time() +
                 " : Удаление пользователя... ";
 
             if (isOk_) {
@@ -143,13 +148,13 @@ int main()
                 chat::out_OK_NO(chat::OK);
                 exchange.strSendAnswer = chat::OK + "|";
                 strLogger_ += chat::OK;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -158,7 +163,7 @@ int main()
         else if (subStringRequest[0] == chat::EDIT) {
             isOk_ = chat::db_edit(subStringRequest);
             strLogger_ =
-                chat::get_date() +
+                chat::get_date() + " " + chat::get_time() +
                 " : Редактирование данных пользователя " + subStringRequest[1] + "... ";
 
             if (isOk_) {
@@ -167,13 +172,13 @@ int main()
                 chat::out_OK_NO(chat::OK);
                 exchange.strSendAnswer = chat::OK + "|";
                 strLogger_ += chat::OK;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -182,7 +187,7 @@ int main()
         else if (subStringRequest[0] == chat::MESSAGE_FROM_DATABASE) {
             isOk_ = chat::db_message_from_database(subStringRequest, exchange);
             strLogger_ =
-                chat::get_date() +
+                chat::get_date() + " " + chat::get_time() +
                 " : Предоставление не прочитанных сообщений... ";
 
             if (isOk_) {
@@ -190,13 +195,21 @@ int main()
                 // strSendAnswer {id_sender : mess_date : mess_text|}
                 chat::out_OK_NO(chat::OK);
                 strLogger_ += chat::OK;
-                log.write(strLogger_);
+                logger.write(strLogger_);
+
+                std::vector<std::string> subStrings__ {};
+                subStrings__ = chat::parsing_string(exchange.strSendAnswer, '|');
+                for (const auto& i : subStrings__) {
+                    strLogger_ = "M: " + i;
+                    logger.write(strLogger_);
+                }
+
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.write(strLogger_);
+                logger.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }

@@ -93,4 +93,24 @@ get_date()
     return currentDate;
 }
 
+//------------------------------------------------------------------------------
+std::string
+get_time()
+{
+    // получаем текущее время
+    std::time_t now = std::time(nullptr);
+
+    // преобразуем текущее время в локальное время
+    std::tm* localTime = std::localtime(&now);
+
+    // форматируем локальное время в строку
+    char buffer[9];
+    std::strftime(buffer, sizeof(buffer), "%H:%M:%S", localTime);
+
+    // преобразуем буфер в std::string
+    std::string currentTime(buffer);
+
+    return currentTime;
+}
+
 } // manespace chat
