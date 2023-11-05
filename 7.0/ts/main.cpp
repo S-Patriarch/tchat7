@@ -24,7 +24,7 @@ int main()
 {
     ptl::pTCPServer tcp;
     ptl::pColor     color;
-    ptl::pLogger    log("slog");
+    ptl::pLogger    log(chat::FILE_LOGGER);
 
     chat::Exchange exchange;
 
@@ -43,7 +43,7 @@ int main()
     chat::out_OK_NO(chat::OK);
 
     strLogger_ = chat::get_date() + " : Проверка базы данных... " + chat::OK;
-    log.log_write(strLogger_);
+    log.write(strLogger_);
 
     std::cout << "Подключение клиента... " << std::flush;
     try {
@@ -60,7 +60,7 @@ int main()
     chat::out_OK_NO(chat::OK);
 
     strLogger_ = chat::get_date() + " : Подключение клиента... " + chat::OK;
-    log.log_write(strLogger_);
+    log.write(strLogger_);
 
     std::vector<std::string> subStringRequest {};
     bool isOk_ {false};
@@ -77,7 +77,7 @@ int main()
             strLogger_ =
                 chat::get_date() +
                 " : Клиент " + subStringRequest[1] + " покидает чат... " + chat::OK;
-            log.log_write(strLogger_);
+            log.write(strLogger_);
 
             chat::out_server_quit();
             tcp.exit();
@@ -96,13 +96,13 @@ int main()
                 // strSendAnswer {id|user_name|user_surname|}
                 chat::out_OK_NO(chat::OK);
                 strLogger_ += chat::OK;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -119,13 +119,13 @@ int main()
                 // strSendAnswer {id|}
                 chat::out_OK_NO(chat::OK);
                 strLogger_ += chat::OK;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -143,13 +143,13 @@ int main()
                 chat::out_OK_NO(chat::OK);
                 exchange.strSendAnswer = chat::OK + "|";
                 strLogger_ += chat::OK;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -167,13 +167,13 @@ int main()
                 chat::out_OK_NO(chat::OK);
                 exchange.strSendAnswer = chat::OK + "|";
                 strLogger_ += chat::OK;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
@@ -190,13 +190,13 @@ int main()
                 // strSendAnswer {id_sender : mess_date : mess_text|}
                 chat::out_OK_NO(chat::OK);
                 strLogger_ += chat::OK;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
             }
             else {
                 chat::out_OK_NO(chat::NO);
                 strLogger_ += chat::NO;
-                log.log_write(strLogger_);
+                log.write(strLogger_);
                 exchange.strSendAnswer = chat::NO;
                 tcp.Send(exchange.strSendAnswer);
             }
