@@ -147,6 +147,53 @@ delete_user(ptl::pTCPClient& tcp,
         user.s_userFamaly = "";
         user.s_userEmail  = "";
 
+        isResultReturn_ = true;
+    }
+
+    return isResultReturn_;
+}
+
+//------------------------------------------------------------------------------
+bool
+edit_user(ptl::pTCPClient& tcp,
+          User& user,
+          Exchange& exchange)
+{
+    ptl::pColor color;
+
+    bool isResultReturn_ {false};
+    char msgBuffer[chat::MAX_PACKET_SIZE];
+
+    std::cout << color.esc_tb(ptl::Color::CYAN)
+              << "chat"
+              << color.esc_c()
+              << ": Редактирование данных пользователя...\n\n";
+
+    exchange.strSendAnswer = "EDIT|" + user.s_userEmail + "|";
+
+    // ввод нового логина пользователя
+    std::cout << "Новая электронная почта: ";
+    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
+    fgets(msgBuffer, sizeof(msgBuffer), stdin);
+    std::string newUserEmail_ = chat::remove_last(msgBuffer, '\n');
+    exchange.strSendAnswer += newUserEmail_ + "|";
+
+    // ввод нового пароля
+    std::cout << "Новый пароль: ";
+    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
+    std::cout << "\033[?25l";
+    std::cout << color.esc_tr(color.getbkgcolor());
+    fgets(msgBuffer, sizeof(msgBuffer), stdin);
+    std::cout << color.esc_c();
+    std::cout << "\033[?25h";
+    exchange.strSendAnswer += chat::remove_last(msgBuffer, '\n') + "|";
+
+    tcp.Send(exchange.strSendAnswer);
+    exchange.strReadRequest = tcp.read();
+
+    if (exchange.strReadRequest != "NO") {
+        // strReadRequest {OK|}
+        user.s_userEmail = newUserEmail_;
         isResultReturn_  = true;
     }
 

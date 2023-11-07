@@ -116,7 +116,25 @@ int main()
         }
         else if (std::strncmp("-e", strTemp_.c_str(), 2) == 0 ||
             std::strncmp("-E", strTemp_.c_str(), 2) == 0) {
-            //
+
+            isOk_ = chat::edit_user(tcp, user, exchange);
+
+            if (isOk_) {
+                ptl::clrscr();
+                chat::get_logo(chat::CLIENT);
+                chat::get_info();
+                chat::get_help();
+
+                std::cout << color.esc_tb(ptl::Color::CYAN)
+                          << "chat"
+                          << color.esc_c()
+                          << ": Добро пожаловать "
+                          << user.s_userName << " " << user.s_userFamaly
+                          << "\n\n";
+            }
+            else if (!isOk_) {
+                // действия :
+            }
         }
         else if (std::strncmp("-d", strTemp_.c_str(), 2) == 0 ||
             std::strncmp("-D", strTemp_.c_str(), 2) == 0) {

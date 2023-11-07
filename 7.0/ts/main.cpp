@@ -164,7 +164,8 @@ int main()
             isOk_ = chat::db_edit(subStringRequest);
             strLogger_ =
                 chat::get_date() + " " + chat::get_time() +
-                " : Редактирование данных пользователя " + subStringRequest[1] + "... ";
+                " : Редактирование данных пользователя " +
+                subStringRequest[1] + "... ";
 
             if (isOk_) {
                 // редактирование данных клиента выполнено успешно
