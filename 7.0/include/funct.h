@@ -14,11 +14,13 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cstring>
 #include <vector>
 #include <sstream>
 #include <chrono>
 #include <ctime>
 #include <iomanip>
+#include <openssl/sha.h>
 
 namespace chat
 {
@@ -63,6 +65,13 @@ get_date();
 //
 std::string
 get_time();
+
+//------------------------------------------------------------------------------
+// Получение хэша посредствам алгоритма Sha256.
+// Задействована библиотека OpenSSL.
+//
+std::string
+sha256(const std::string&);
 
 } // namespace chat
 

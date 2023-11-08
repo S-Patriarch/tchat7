@@ -113,4 +113,23 @@ get_time()
     return currentTime;
 }
 
+//------------------------------------------------------------------------------
+std::string
+sha256(const std::string& str_)
+{
+    unsigned char hash_[SHA256_DIGEST_LENGTH];
+
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, str_.c_str(), str_.size());
+    SHA256_Final(hash_, &sha256);
+
+    std::stringstream ss_;
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        ss_ << std::hex << std::setw(2) << std::setfill('0') << (int)hash_[i];
+    }
+
+    return ss_.str();
+}
+
 } // manespace chat

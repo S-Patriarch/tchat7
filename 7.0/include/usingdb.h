@@ -8,8 +8,8 @@
 #define __CHAT_USINGDB_H__
 
 #include "../include/sct.h"
+#include "../include/funct.h"
 
-#include "ptl/psha.h"
 #include "ptl/pexcept.h"
 
 #include "/usr/include/mysql/mysql.h"

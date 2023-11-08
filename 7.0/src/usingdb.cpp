@@ -79,7 +79,7 @@ db_create()
             &mysql,
             "CREATE TABLE shadow ("
             "    id_user INT,"
-            "    password_hash CHAR(40),"
+            "    password_hash CHAR(64),"
             "    FOREIGN KEY (id_user) REFERENCES user(id) ON DELETE CASCADE"
             ") DEFAULT CHARACTER SET utf8");
 
@@ -113,8 +113,6 @@ db_authorization(std::vector<std::string>& v,
     MYSQL_RES* res;
     MYSQL_ROW  row;
 
-    ptl::pSha sha;
-
     bool isResultReturn_ {false};
     std::string queryString_ {};
     std::string idUser_ {};
@@ -126,7 +124,7 @@ db_authorization(std::vector<std::string>& v,
               << "... "
               << std::flush;
 
-    std::string iHash_ = sha.sha1(v[2].c_str(), sizeof(v[2].c_str()) - 1);
+    std::string iHash_ = sha256(v[2]);
 
     mysql_init(&mysql);
 
@@ -194,8 +192,6 @@ db_registration(std::vector<std::string>& v,
     MYSQL_RES* res;
     MYSQL_ROW  row;
 
-    ptl::pSha sha;
-
     bool isResultReturn_ {false};
     std::string queryString_ {};
 
@@ -204,7 +200,7 @@ db_registration(std::vector<std::string>& v,
               << "... "
               << std::flush;
 
-    std::string iHash_ = sha.sha1(v[4].c_str(), sizeof(v[4].c_str()) - 1);
+    std::string iHash_ = sha256(v[4]);
 
     mysql_init(&mysql);
 
@@ -316,8 +312,6 @@ db_edit(std::vector<std::string>& v)
     MYSQL_RES* res;
     MYSQL_ROW  row;
 
-    ptl::pSha sha;
-
     bool isResultReturn_ {false};
 
     std::string queryString_ {};
@@ -329,7 +323,7 @@ db_edit(std::vector<std::string>& v)
               << "... "
               << std::flush;
 
-    std::string iHash_ = sha.sha1(v[2].c_str(), sizeof(v[2].c_str()) - 1);
+    std::string iHash_ = sha256(v[2]);
 
     mysql_init(&mysql);
 
