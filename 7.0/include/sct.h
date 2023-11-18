@@ -11,8 +11,9 @@
 #include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace chat
-{
+namespace chat {
+
+// структура, описывающая текущего пользователя
 struct User {
     std::string s_userID {};     // id пользователя
     std::string s_userName {};   // имя пользователя
@@ -20,6 +21,14 @@ struct User {
     std::string s_userEmail {};  // email пользователя
 };
 
+// структура, описывающая сообщение
+struct Message {
+    std::string s_msgFromWhom {}; // от кого сообщение
+    std::string s_msgToWhom {};   // кому сообщение
+    std::string s_msgText {};     // текст сообщения
+};
+
+// структура для обмена данными между сервером и клиентом
 struct Exchange {
     std::string strReadRequest {}; // строка запроса
     std::string strSendAnswer {};  // строка ответа

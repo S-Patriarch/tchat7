@@ -18,6 +18,14 @@ set(SOURCE
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 
+target_link_libraries(
+    ${PROJECT_NAME} PRIVATE
+    -lssl
+    -lcrypto
+
+    -lpthread
+)
+
 set_target_properties(
     ${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 17

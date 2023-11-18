@@ -12,8 +12,7 @@
 #include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace chat
-{
+namespace chat {
 
 const std::uint16_t PORT {53333};
 const std::uint16_t SERVER {1000};

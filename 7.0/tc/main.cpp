@@ -23,6 +23,7 @@ int main()
     ptl::pColor     color;
 
     chat::User     user;
+    chat::Message  msg;
     chat::Exchange exchange;
 
     ptl::clrscr();
@@ -81,25 +82,18 @@ int main()
         // проверка на наличие в базе не прочитанных сообщений
         isOk_ = chat::out_message(tcp, user, exchange);
 
-        // организация : ввод сообщения
-
-        std::cout << user.s_userName << " " << user.s_userFamaly
-                  << "\nmsg: ";
-
         ptl::scrs();
+        std::cout << user.s_userName << " " << user.s_userFamaly << '\n';
+
+        // кому сообщение
+        std::cout << "к: ";
         std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
         fgets(msgBuffer, sizeof(msgBuffer), stdin);
-        ptl::hcrs();
+        msg.s_msgToWhom = chat::remove_last(msgBuffer, '\n');
 
-        std::cout << '\n';
+        if (std::strncmp("-q", msg.s_msgToWhom.c_str(), 2) == 0 ||
+            std::strncmp("-Q", msg.s_msgToWhom.c_str(), 2) == 0) {
 
-        // организация : обработка введенного сообщения,
-        //               отправка введенного сообщения
-
-        std::string strTemp_ = chat::remove_last(msgBuffer, '\n');
-
-        if (std::strncmp("-q", strTemp_.c_str(), 2) == 0 ||
-            std::strncmp("-Q", strTemp_.c_str(), 2) == 0) {
             exchange.strSendAnswer = "QUIT|" + user.s_userEmail + "|";
             tcp.Send(exchange.strSendAnswer);
             chat::out_client_quit(user);
@@ -107,15 +101,16 @@ int main()
             ptl::scrs();
             return 0;
         }
-        else if (std::strncmp("-h", strTemp_.c_str(), 2) == 0 ||
-            std::strncmp("-H", strTemp_.c_str(), 2) == 0 ||
-            std::strncmp("-?", strTemp_.c_str(), 2) == 0) {
+        else if (std::strncmp("-h", msg.s_msgToWhom.c_str(), 2) == 0 ||
+                 std::strncmp("-H", msg.s_msgToWhom.c_str(), 2) == 0 ||
+                 std::strncmp("-?", msg.s_msgToWhom.c_str(), 2) == 0) {
+
             ptl::clrscr();
             chat::get_info();
             chat::get_help();
         }
-        else if (std::strncmp("-e", strTemp_.c_str(), 2) == 0 ||
-            std::strncmp("-E", strTemp_.c_str(), 2) == 0) {
+        else if (std::strncmp("-e", msg.s_msgToWhom.c_str(), 2) == 0 ||
+                 std::strncmp("-E", msg.s_msgToWhom.c_str(), 2) == 0) {
 
             isOk_ = chat::edit_user(tcp, user, exchange);
 
@@ -136,8 +131,8 @@ int main()
                 // действия :
             }
         }
-        else if (std::strncmp("-d", strTemp_.c_str(), 2) == 0 ||
-            std::strncmp("-D", strTemp_.c_str(), 2) == 0) {
+        else if (std::strncmp("-d", msg.s_msgToWhom.c_str(), 2) == 0 ||
+                 std::strncmp("-D", msg.s_msgToWhom.c_str(), 2) == 0) {
 
             isOk_ = chat::delete_user(tcp, user, exchange);
 
@@ -175,6 +170,18 @@ int main()
             else if (!isOk_) {
                 // действия :
             }
+        }
+        else { // ввод сообщения и его отправка на сервер
+            std::cout << "ч: ";
+            std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
+            fgets(msgBuffer, sizeof(msgBuffer), stdin);
+            msg.s_msgText = chat::remove_last(msgBuffer, '\n');
+
+            // от кого сообщение
+            msg.s_msgFromWhom = user.s_userID;
+
+            std::cout << '\n';
+            ptl::hcrs();
         }
 
     } // while (true) {}

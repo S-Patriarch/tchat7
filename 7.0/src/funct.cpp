@@ -7,8 +7,8 @@
 #include "../include/funct.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace chat
-{
+namespace chat {
+
 //------------------------------------------------------------------------------
 std::string
 remove_last(const std::string& str,
@@ -73,8 +73,7 @@ out_OK_NO(const std::string& s_)
 {
     if (s_ == "OK") {
         std::cout << "OK\n";
-    }
-    else if (s_ == "NO") {
+    } else if (s_ == "NO") {
         std::cout << "NO\n";
     }
 }

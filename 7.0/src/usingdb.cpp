@@ -7,8 +7,8 @@
 #include "../include/usingdb.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-namespace chat
-{
+namespace chat {
+
 //------------------------------------------------------------------------------
 bool
 db_existence_check()
@@ -37,8 +37,7 @@ db_existence_check()
         }
 
         mysql_free_result(res);
-    }
-    else {
+    } else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -89,13 +88,12 @@ db_create()
             "    id INT AUTO_INCREMENT PRIMARY KEY,"
             "    id_sender INT,"
             "    id_recipient INT,"
-            "    mess_text TEXT,"
-            "    mess_date DATE,"
-            "    mess_read INT,"
-            "    mess_delivered INT"
+            "    msg_text TEXT,"
+            "    msg_date DATE,"
+            "    msg_read INT,"
+            "    msg_delivered INT"
             ") DEFAULT CHARACTER SET utf8");
-    }
-    else {
+    } else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -172,8 +170,7 @@ db_authorization(std::vector<std::string>& v,
                 mysql_free_result(res);
             }
         }
-    }
-    else {
+    } else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -251,8 +248,7 @@ db_registration(std::vector<std::string>& v,
                 isResultReturn_ = true;
             }
         }
-    }
-    else {
+    } else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -293,8 +289,7 @@ db_delete(std::vector<std::string>& v)
         }
 
         isResultReturn_ = true;
-    }
-    else {
+    } else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -379,8 +374,7 @@ db_edit(std::vector<std::string>& v)
         }
 
         isResultReturn_ = true;
-    }
-    else {
+    } else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -421,11 +415,11 @@ db_message_from_database(std::vector<std::string>& v,
 
         queryString_ =
                 "SELECT * FROM message "
-                "WHERE id_recipient = " + v[1] + " AND mess_read = 0";
+                "WHERE id_recipient = " + v[1] + " AND msg_read = 0";
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            //std::cout << "E: " << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -468,8 +462,7 @@ db_message_from_database(std::vector<std::string>& v,
 
             mysql_free_result(res);
         }
-    }
-    else {
+    } else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
