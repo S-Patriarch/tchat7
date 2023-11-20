@@ -81,6 +81,10 @@ int main()
     while (true) {
         // проверка на наличие в базе не прочитанных сообщений
         isOk_ = chat::out_message(tcp, user, exchange);
+        if (isOk_) {
+            std::string strStatus_ = "1|1";
+            isOk_ = chat::message_status(tcp, user, exchange, strStatus_);
+        }
 
         ptl::scrs();
         std::cout << user.s_userName << " " << user.s_userFamaly << '\n';

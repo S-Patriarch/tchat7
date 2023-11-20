@@ -63,6 +63,12 @@ db_edit(std::vector<std::string>&);
 bool
 db_message_from_database(std::vector<std::string>&, Exchange&);
 
+//------------------------------------------------------------------------------
+// Установление статуса сообщений клиента.
+//
+bool
+db_message_status(std::vector<std::string>&);
+
 } // namespace chat
 
 #endif // __CHAT_USINGDB_H__

@@ -215,5 +215,29 @@ int main()
                 tcp.Send(exchange.strSendAnswer);
             }
         }
+        // subStringRequest {MESSAGE_STATUS,id,msg_read,msg_delivered}
+        else if (subStringRequest[0] == chat::MESSAGE_STATUS) {
+            isOk_ = chat::db_message_status(subStringRequest);
+            strLogger_ =
+                chat::get_date() + " " + chat::get_time() +
+                " : Изменение статуса сообщений... ";
+
+            if (isOk_) {
+                // изменение статуса сообщений клиента выполнена успешно
+                // strSendAnswer {OK|}
+                chat::out_OK_NO(chat::OK);
+                strLogger_ += chat::OK;
+                logger.write(strLogger_);
+                exchange.strSendAnswer = chat::OK + "|";
+                tcp.Send(exchange.strSendAnswer);
+            }
+            else {
+                chat::out_OK_NO(chat::NO);
+                strLogger_ += chat::NO;
+                logger.write(strLogger_);
+                exchange.strSendAnswer = chat::NO;
+                tcp.Send(exchange.strSendAnswer);
+            }
+        }
     } // while (true) {}
 }

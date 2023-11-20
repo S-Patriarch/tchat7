@@ -32,6 +32,7 @@ const std::string DELETE                {"DELETE"};
 const std::string EDIT                  {"EDIT"};
 const std::string MESSAGE_FROM_DATABASE {"MESSAGE_FROM_DATABASE"};
 const std::string MESSAGE_TO_DATABASE   {"MESSAGE_TO_DATABASE"};
+const std::string MESSAGE_STATUS        {"MESSAGE_STATUS"};
 
 } // namespace chat
 

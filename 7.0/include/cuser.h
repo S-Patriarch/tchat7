@@ -52,6 +52,12 @@ edit_user(ptl::pTCPClient&, User&, Exchange&);
 bool
 out_message(ptl::pTCPClient&, User&, Exchange&);
 
+//------------------------------------------------------------------------------
+// Изменение статуса сообщений клиента.
+//
+bool
+message_status(ptl::pTCPClient&, User&, Exchange&, std::string&);
+
 } // namespace chat
 
 #endif // __CHAT_CUSER_H__

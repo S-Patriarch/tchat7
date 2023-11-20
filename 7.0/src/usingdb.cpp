@@ -415,7 +415,8 @@ db_message_from_database(std::vector<std::string>& v,
 
         queryString_ =
                 "SELECT * FROM message "
-                "WHERE id_recipient = " + v[1] + " AND msg_read = 0";
+                "WHERE id_recipient = " + v[1] +
+                " AND msg_read = 0 AND msg_delivered = 0";
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
@@ -463,6 +464,52 @@ db_message_from_database(std::vector<std::string>& v,
             mysql_free_result(res);
         }
     } else {
+        std::cout << "E: " << mysql_error(&mysql) << '\n';
+    }
+
+    mysql_close(&mysql);
+    return isResultReturn_;
+}
+
+//------------------------------------------------------------------------------
+// v {MESSAGE_STATUS, id, msg_read, msg_delivered}
+//
+bool
+db_message_status(std::vector<std::string>& v)
+{
+    MYSQL mysql;
+
+    bool isResultReturn_ {false};
+
+    std::string queryString_ {};
+    std::int32_t queryState_ {};
+
+    std::cout << "Изменение статуса сообщений... "
+              << std::flush;
+
+    mysql_init(&mysql);
+
+    if (mysql_real_connect(
+        &mysql,
+        "127.0.0.1", "root", "ZZzz1122+", "tchatdb", 0, NULL, 0)) {
+
+        mysql_set_character_set(&mysql, "utf8");
+
+        queryString_ =
+            "UPDATE message "
+            "SET msg_read = " + v[2] + ", msg_delivered = " + v[3] + " " +
+            "WHERE id_recipient = " + v[1];
+
+        queryState_ = mysql_query(&mysql, queryString_.c_str());
+        if (queryState_) {
+            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            mysql_close(&mysql);
+            return isResultReturn_;
+        }
+
+        isResultReturn_ = true;
+    }
+    else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 

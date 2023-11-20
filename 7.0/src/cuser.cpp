@@ -234,4 +234,27 @@ out_message(ptl::pTCPClient& tcp,
     return isResultReturn_;
 }
 
+//------------------------------------------------------------------------------
+bool
+message_status(ptl::pTCPClient& tcp,
+               User& user,
+               Exchange& exchange,
+               std::string& strStatus_)
+{
+    bool isResultReturn_ {false};
+
+    exchange.strSendAnswer =
+        "MESSAGE_STATUS|" + user.s_userID + "|" + strStatus_ + "|";
+
+    tcp.Send(exchange.strSendAnswer);
+    exchange.strReadRequest = tcp.read();
+
+    if (exchange.strReadRequest != "NO") {
+        // strReadRequest {OK|}
+        isResultReturn_ = true;
+    }
+
+    return isResultReturn_;
+}
+
 } // manespace chat
