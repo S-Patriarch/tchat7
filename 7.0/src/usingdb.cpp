@@ -37,7 +37,8 @@ db_existence_check()
         }
 
         mysql_free_result(res);
-    } else {
+    }
+    else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -93,7 +94,8 @@ db_create()
             "    msg_read INT,"
             "    msg_delivered INT"
             ") DEFAULT CHARACTER SET utf8");
-    } else {
+    }
+    else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -170,7 +172,8 @@ db_authorization(std::vector<std::string>& v,
                 mysql_free_result(res);
             }
         }
-    } else {
+    }
+    else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -248,7 +251,8 @@ db_registration(std::vector<std::string>& v,
                 isResultReturn_ = true;
             }
         }
-    } else {
+    }
+    else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -288,8 +292,15 @@ db_delete(std::vector<std::string>& v)
             return isResultReturn_;
         }
 
+        queryString_ =
+            "DELETE FROM message "
+            "WHERE id_recipient = " + v[1];
+
+        queryState_ = mysql_query(&mysql, queryString_.c_str());
+
         isResultReturn_ = true;
-    } else {
+    }
+    else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -374,7 +385,8 @@ db_edit(std::vector<std::string>& v)
         }
 
         isResultReturn_ = true;
-    } else {
+    }
+    else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
@@ -463,7 +475,8 @@ db_message_from_database(std::vector<std::string>& v,
 
             mysql_free_result(res);
         }
-    } else {
+    }
+    else {
         std::cout << "E: " << mysql_error(&mysql) << '\n';
     }
 
