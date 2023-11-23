@@ -485,6 +485,88 @@ db_message_from_database(std::vector<std::string>& v,
 }
 
 //------------------------------------------------------------------------------
+// v {MESSAGE_TO_DATABASE, id_sender, id_recipient, msg_text}
+//
+bool
+db_message_to_database(std::vector<std::string>& v)
+{
+    MYSQL      mysql;
+    MYSQL_RES* res;
+    MYSQL_ROW  row;
+
+    bool isResultReturn_ {false};
+
+    std::string queryString_ {};
+    std::int32_t queryState_ {};
+    std::string idRecipient_ {};
+
+    std::string strTempRecipient_ {};
+    strTempRecipient_ += v[2] + ' ';
+
+    std::vector<std::string> v_ = parsing_string(strTempRecipient_, ' ');
+
+    std::cout << "Запись направленного сообщения... "
+              << std::flush;
+
+    mysql_init(&mysql);
+
+    if (mysql_real_connect(
+        &mysql,
+        "127.0.0.1", "root", "ZZzz1122+", "tchatdb", 0, NULL, 0)) {
+
+        mysql_set_character_set(&mysql, "utf8");
+
+        queryString_ =
+            "SELECT * FROM user "
+            "WHERE user_name = \'" + v_[0] + "\' " +
+            "AND user_surname = \'" + v_[1] + "\'";
+
+        queryState_ = mysql_query(&mysql, queryString_.c_str());
+        if (queryState_) {
+            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            mysql_close(&mysql);
+            return isResultReturn_;
+        }
+
+        res = mysql_store_result(&mysql);
+        row = mysql_fetch_row(res);
+        mysql_free_result(res);
+
+        if (row != NULL) {
+            idRecipient_ = row[0];
+
+            queryString_ =
+                "INSERT INTO message ("
+                "    id,"
+                "    id_sender,"
+                "    id_recipient,"
+                "    msg_text,"
+                "    msg_date,"
+                "    msg_read,"
+                "    msg_delivered)"
+                "VALUES"
+                "    (default, " + v[1] + ", " + idRecipient_ +
+                ", \'" + v[3] + "\', \'" + get_date() + "\', 0, 0)";
+
+            queryState_ = mysql_query(&mysql, queryString_.c_str());
+            if (queryState_) {
+                std::cout << "E: " << mysql_error(&mysql) << '\n';
+                mysql_close(&mysql);
+                return isResultReturn_;
+            }
+
+            isResultReturn_ = true;
+        }
+    }
+    else {
+        std::cout << "E: " << mysql_error(&mysql) << '\n';
+    }
+
+    mysql_close(&mysql);
+    return isResultReturn_;
+}
+
+//------------------------------------------------------------------------------
 // v {MESSAGE_STATUS, id, msg_read, msg_delivered}
 //
 bool

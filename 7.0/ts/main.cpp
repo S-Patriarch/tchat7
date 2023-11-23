@@ -144,9 +144,9 @@ int main()
 
             if (isOk_) {
                 // удаление клиента выполнено успешно
-                // strSendAnswer {OK|}
+                // strSendAnswer {OK}
                 chat::out_OK_NO(chat::OK);
-                exchange.strSendAnswer = chat::OK + "|";
+                exchange.strSendAnswer = chat::OK;
                 strLogger_ += chat::OK;
                 logger.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
@@ -169,9 +169,9 @@ int main()
 
             if (isOk_) {
                 // редактирование данных клиента выполнено успешно
-                // strSendAnswer {OK|}
+                // strSendAnswer {OK}
                 chat::out_OK_NO(chat::OK);
-                exchange.strSendAnswer = chat::OK + "|";
+                exchange.strSendAnswer = chat::OK;
                 strLogger_ += chat::OK;
                 logger.write(strLogger_);
                 tcp.Send(exchange.strSendAnswer);
@@ -215,6 +215,30 @@ int main()
                 tcp.Send(exchange.strSendAnswer);
             }
         }
+        // subStringRequest {MESSAGE_TO_DATABASE,id_sender,id_recipient,msg_text}
+        else if (subStringRequest[0] == chat::MESSAGE_TO_DATABASE) {
+            isOk_ = chat::db_message_to_database(subStringRequest);
+            strLogger_ =
+                chat::get_date() + " " + chat::get_time() +
+                " : Запись направленного сообщения... ";
+
+            if (isOk_) {
+                // запись направленного сообщения клиента выполнена успешно
+                // strSendAnswer {OK}
+                chat::out_OK_NO(chat::OK);
+                strLogger_ += chat::OK;
+                logger.write(strLogger_);
+                exchange.strSendAnswer = chat::OK;
+                tcp.Send(exchange.strSendAnswer);
+            }
+            else {
+                chat::out_OK_NO(chat::NO);
+                strLogger_ += chat::NO;
+                logger.write(strLogger_);
+                exchange.strSendAnswer = chat::NO;
+                tcp.Send(exchange.strSendAnswer);
+            }
+        }
         // subStringRequest {MESSAGE_STATUS,id,msg_read,msg_delivered}
         else if (subStringRequest[0] == chat::MESSAGE_STATUS) {
             isOk_ = chat::db_message_status(subStringRequest);
@@ -224,11 +248,11 @@ int main()
 
             if (isOk_) {
                 // изменение статуса сообщений клиента выполнена успешно
-                // strSendAnswer {OK|}
+                // strSendAnswer {OK}
                 chat::out_OK_NO(chat::OK);
                 strLogger_ += chat::OK;
                 logger.write(strLogger_);
-                exchange.strSendAnswer = chat::OK + "|";
+                exchange.strSendAnswer = chat::OK;
                 tcp.Send(exchange.strSendAnswer);
             }
             else {

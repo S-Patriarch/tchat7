@@ -141,7 +141,7 @@ delete_user(ptl::pTCPClient& tcp,
     exchange.strReadRequest = tcp.read();
 
     if (exchange.strReadRequest != "NO") {
-        // strReadRequest {OK|}
+        // strReadRequest {OK}
         user.s_userID     = "";
         user.s_userName   = "";
         user.s_userFamaly = "";
@@ -192,7 +192,7 @@ edit_user(ptl::pTCPClient& tcp,
     exchange.strReadRequest = tcp.read();
 
     if (exchange.strReadRequest != "NO") {
-        // strReadRequest {OK|}
+        // strReadRequest {OK}
         user.s_userEmail = newUserEmail_;
         isResultReturn_  = true;
     }
@@ -236,6 +236,30 @@ out_message(ptl::pTCPClient& tcp,
 
 //------------------------------------------------------------------------------
 bool
+in_message(ptl::pTCPClient& tcp,
+           Message& msg,
+           Exchange& exchange)
+{
+    bool isResultReturn_ {false};
+
+    exchange.strSendAnswer =
+        "MESSAGE_TO_DATABASE|" + msg.s_msgFromWhom + "|"
+                               + msg.s_msgToWhom   + "|"
+                               + msg.s_msgText     + "|";
+
+    tcp.Send(exchange.strSendAnswer);
+    exchange.strReadRequest = tcp.read();
+
+    if (exchange.strReadRequest != "NO") {
+        // strReadRequest {OK}
+        isResultReturn_ = true;
+    }
+
+    return isResultReturn_;
+}
+
+//------------------------------------------------------------------------------
+bool
 message_status(ptl::pTCPClient& tcp,
                User& user,
                Exchange& exchange,
@@ -244,13 +268,14 @@ message_status(ptl::pTCPClient& tcp,
     bool isResultReturn_ {false};
 
     exchange.strSendAnswer =
-        "MESSAGE_STATUS|" + user.s_userID + "|" + strStatus_ + "|";
+        "MESSAGE_STATUS|" + user.s_userID + "|"
+                          + strStatus_    + "|";
 
     tcp.Send(exchange.strSendAnswer);
     exchange.strReadRequest = tcp.read();
 
     if (exchange.strReadRequest != "NO") {
-        // strReadRequest {OK|}
+        // strReadRequest {OK}
         isResultReturn_ = true;
     }
 

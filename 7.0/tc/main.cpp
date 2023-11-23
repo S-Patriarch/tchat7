@@ -184,6 +184,8 @@ int main()
             // от кого сообщение
             msg.s_msgFromWhom = user.s_userID;
 
+            isOk_ = chat::in_message(tcp, msg, exchange);
+
             std::cout << '\n';
             ptl::hcrs();
         }
