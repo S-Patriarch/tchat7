@@ -40,6 +40,7 @@ int main()
     strLogger_ =
         chat::get_date() + " " + chat::get_time() +
         " : Проверка базы данных... ";
+    // проверка исключений
     try {
         bool isCheckDB_ = chat::db_existence_check();
         if (!isCheckDB_) {
