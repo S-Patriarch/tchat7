@@ -612,4 +612,45 @@ db_message_status(std::vector<std::string>& v)
     return isResultReturn_;
 }
 
+//------------------------------------------------------------------------------
+bool
+db_message_dalete()
+{
+    MYSQL mysql;
+
+    bool isResultReturn_ {false};
+
+    std::string queryString_ {};
+    std::int32_t queryState_ {};
+
+    mysql_init(&mysql);
+
+    if (mysql_real_connect(
+        &mysql,
+        "127.0.0.1", "root", "ZZzz1122+", "tchatdb", 0, NULL, 0)) {
+
+        mysql_set_character_set(&mysql, "utf8");
+
+        queryString_ =
+            "DELETE FROM message "
+            "WHERE msg_read = 1 AND msg_delivered = 1";
+
+        queryState_ = mysql_query(&mysql, queryString_.c_str());
+        if (queryState_) {
+            //std::cout << "E: " << mysql_error(&mysql) << '\n';
+            mysql_close(&mysql);
+            return isResultReturn_;
+        }
+
+        isResultReturn_ = true;
+    }
+    else {
+        std::cout << "E: " << mysql_error(&mysql) << '\n';
+    }
+
+    mysql_close(&mysql);
+    return isResultReturn_;
+}
+
 } // namespace chat
+

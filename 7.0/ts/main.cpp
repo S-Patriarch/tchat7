@@ -35,19 +35,36 @@ int main()
     ptl::hcrs();
     chat::get_logo(chat::SERVER);
 
+    //--------------------------------------------------------------------------
     std::cout << "Проверка базы данных... " << std::flush;
-
+    strLogger_ =
+        chat::get_date() + " " + chat::get_time() +
+        " : Проверка базы данных... ";
     bool isCheckDB_ = chat::db_existence_check();
     if (!isCheckDB_) {
         chat::db_create();
     }
     chat::out_OK_NO(chat::OK);
-
-    strLogger_ =
-        chat::get_date() + " " + chat::get_time() +
-        " : Проверка базы данных... " + chat::OK;
+    strLogger_ += chat::OK;
     logger.write(strLogger_);
 
+    //--------------------------------------------------------------------------
+    std::cout << "Очистка базы данных... " << std::flush;
+    strLogger_ =
+        chat::get_date() + " " + chat::get_time() +
+        " : Очистка базы данных... ";
+    isCheckDB_ = chat::db_message_dalete();
+    if (isCheckDB_) {
+        chat::out_OK_NO(chat::OK);
+        strLogger_ += chat::OK;
+    }
+    else {
+        chat::out_OK_NO(chat::NO);
+        strLogger_ += chat::NO;
+    }
+    logger.write(strLogger_);
+
+    //--------------------------------------------------------------------------
     std::cout << "Подключение клиента... " << std::flush;
     try {
         // SERVER
@@ -67,6 +84,7 @@ int main()
         " : Подключение клиента... " + chat::OK;
     logger.write(strLogger_);
 
+    //--------------------------------------------------------------------------
     std::vector<std::string> subStringRequest {};
     bool isOk_ {false};
 
