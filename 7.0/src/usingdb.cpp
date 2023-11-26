@@ -39,7 +39,9 @@ db_existence_check()
         mysql_free_result(res);
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::string strExcept_ { "E: " };
+        strExcept_ += mysql_error(&mysql); 
+        throw ptl::pException(strExcept_.c_str());
     }
 
     mysql_close(&mysql);
@@ -96,7 +98,9 @@ db_create()
             ") DEFAULT CHARACTER SET utf8");
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::string strExcept_ { "E: " };
+        strExcept_ += mysql_error(&mysql); 
+        throw ptl::pException(strExcept_.c_str());
     }
 
     mysql_close(&mysql);

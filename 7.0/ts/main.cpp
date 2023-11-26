@@ -40,9 +40,16 @@ int main()
     strLogger_ =
         chat::get_date() + " " + chat::get_time() +
         " : Проверка базы данных... ";
-    bool isCheckDB_ = chat::db_existence_check();
-    if (!isCheckDB_) {
-        chat::db_create();
+    try {
+        bool isCheckDB_ = chat::db_existence_check();
+        if (!isCheckDB_) {
+            chat::db_create();
+        }
+    }
+    catch (std::exception& ex) {
+        std::cout << ex.what() << '\n';
+        ptl::scrs();
+        return 0;
     }
     chat::out_OK_NO(chat::OK);
     strLogger_ += chat::OK;
@@ -53,7 +60,7 @@ int main()
     strLogger_ =
         chat::get_date() + " " + chat::get_time() +
         " : Очистка базы данных... ";
-    isCheckDB_ = chat::db_message_dalete();
+    bool isCheckDB_ = chat::db_message_dalete();
     if (isCheckDB_) {
         chat::out_OK_NO(chat::OK);
         strLogger_ += chat::OK;
