@@ -38,13 +38,9 @@ authorization(ptl::pTCPClient& tcp,
 
     // ввод пароля
     std::cout << "Пароль: ";
-    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
     std::cout << "\033[?25l";
-    std::cout << color.esc_tr(color.getbkgcolor());
-    fgets(msgBuffer, sizeof(msgBuffer), stdin);
-    std::cout << color.esc_c();
+    exchange.strSendAnswer += chat::get_hidden_input() + "|";
     std::cout << "\033[?25h";
-    exchange.strSendAnswer += chat::remove_last(msgBuffer, '\n') + "|";
 
     tcp.Send(exchange.strSendAnswer);
     exchange.strReadRequest = tcp.read();
@@ -106,13 +102,9 @@ registration(ptl::pTCPClient& tcp,
 
     // ввод пароля
     std::cout << "Пароль: ";
-    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
     std::cout << "\033[?25l";
-    std::cout << color.esc_tr(color.getbkgcolor());
-    fgets(msgBuffer, sizeof(msgBuffer), stdin);
-    std::cout << color.esc_c();
+    exchange.strSendAnswer += chat::get_hidden_input() + "|";
     std::cout << "\033[?25h";
-    exchange.strSendAnswer += chat::remove_last(msgBuffer, '\n') + "|";
 
     tcp.Send(exchange.strSendAnswer);
     exchange.strReadRequest = tcp.read();
@@ -180,13 +172,9 @@ edit_user(ptl::pTCPClient& tcp,
 
     // ввод нового пароля
     std::cout << "Новый пароль: ";
-    std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
     std::cout << "\033[?25l";
-    std::cout << color.esc_tr(color.getbkgcolor());
-    fgets(msgBuffer, sizeof(msgBuffer), stdin);
-    std::cout << color.esc_c();
+    exchange.strSendAnswer += chat::get_hidden_input() + "|";
     std::cout << "\033[?25h";
-    exchange.strSendAnswer += chat::remove_last(msgBuffer, '\n') + "|";
 
     tcp.Send(exchange.strSendAnswer);
     exchange.strReadRequest = tcp.read();

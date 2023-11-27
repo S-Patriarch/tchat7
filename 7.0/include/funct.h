@@ -21,6 +21,8 @@
 #include <ctime>
 #include <iomanip>
 #include <openssl/sha.h>
+#include <termios.h>
+#include <unistd.h>
 
 namespace chat {
 
@@ -72,6 +74,12 @@ get_time();
 //
 std::string
 sha256(const std::string&);
+
+//------------------------------------------------------------------------------
+// Функция скрытого ввода в терминале ОС Linux.
+//
+std::string 
+get_hidden_input();
 
 } // namespace chat
 

@@ -131,4 +131,30 @@ sha256(const std::string& str_)
     return ss_.str();
 }
 
+//------------------------------------------------------------------------------
+std::string 
+get_hidden_input() 
+{
+    struct termios oldt;
+    struct termios newt;
+    
+    std::string strResult{};
+
+    // Сохраняем текущие настройки терминала
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~ECHO; // Отключаем отображение ввода
+
+    // Применяем новые настройки терминала
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+    // Читаем ввод пользователя
+    std::getline(std::cin, strResult);
+
+    // Востанавливаем старые настройки терминала
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+
+    return strResult;
+}
+
 } // manespace chat
