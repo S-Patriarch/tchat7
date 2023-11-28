@@ -157,4 +157,33 @@ get_hidden_input()
     return strResult;
 }
 
+//------------------------------------------------------------------------------
+unsigned 
+int get_random_number(int disBegin, int disEnd)
+{
+    std::random_device rd;  // Получение случайного устройства
+    std::mt19937 gen(rd()); // Генератор случайных чисел
+    // Получение числа
+    std::uniform_int_distribution<unsigned int> dis(disBegin, disEnd);
+    return dis(gen);
+}
+
+//------------------------------------------------------------------------------
+void 
+out_color_string(const std::string& strOutput, unsigned int nColor)
+{
+    ptl::pColor color;
+    
+    switch (nColor) {
+        case 1 : std::cout << color.esc_tr(ptl::Color::RED)     << strOutput; break;
+        case 2 : std::cout << color.esc_tr(ptl::Color::GREEN)   << strOutput; break;
+        case 3 : std::cout << color.esc_tr(ptl::Color::YELLOW)  << strOutput; break;
+        case 4 : std::cout << color.esc_tr(ptl::Color::BLUE)    << strOutput; break;
+        case 5 : std::cout << color.esc_tr(ptl::Color::MAGENTA) << strOutput; break;
+        case 6 : std::cout << color.esc_tr(ptl::Color::CYAN)    << strOutput; break;
+        case 7 : std::cout << color.esc_tr(ptl::Color::WHITE)   << strOutput; break;
+    }
+    std::cout << color.esc_c();
+}
+
 } // manespace chat

@@ -15,10 +15,11 @@ namespace chat {
 
 // структура, описывающая текущего пользователя
 struct User {
-    std::string s_userID {};     // id пользователя
-    std::string s_userName {};   // имя пользователя
-    std::string s_userFamaly {}; // фамилия пользователя
-    std::string s_userEmail {};  // email пользователя
+    std::string  s_userID {};     // id пользователя
+    std::string  s_userName {};   // имя пользователя
+    std::string  s_userFamaly {}; // фамилия пользователя
+    std::string  s_userEmail {};  // email пользователя
+    unsigned int s_userColor {};  // цвет вывода пользователя
 };
 
 // структура, описывающая сообщение

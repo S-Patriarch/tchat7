@@ -52,6 +52,7 @@ authorization(ptl::pTCPClient& tcp,
         user.s_userID     = subStringRequest[0];
         user.s_userName   = subStringRequest[1];
         user.s_userFamaly = subStringRequest[2];
+        user.s_userColor  = get_random_number(1, 7);
 
         isResultReturn_ = true;
     }
@@ -113,6 +114,7 @@ registration(ptl::pTCPClient& tcp,
         // strReadRequest {id|}
         subStringRequest = chat::parsing_string(exchange.strReadRequest, '|');
         user.s_userID    = subStringRequest[0];
+        user.s_userColor = get_random_number(1, 7);
         isResultReturn_  = true;
     }
 

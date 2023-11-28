@@ -48,6 +48,7 @@ int main()
               << ": Соединение с сервером установлено\n";
 
     bool isOk_{false};
+    std::string sColor {};
 
     ptl::scrs();
     isOk_ = chat::authorization(tcp, user, exchange);
@@ -65,6 +66,8 @@ int main()
         ptl::hcrs();
     }
 
+    sColor += user.s_userName + ' ' + user.s_userFamaly + '\n';
+
     ptl::clrscr();
     chat::get_logo(chat::CLIENT);
     chat::get_info();
@@ -73,10 +76,11 @@ int main()
     std::cout << color.esc_tb(ptl::Color::CYAN)
               << "chat"
               << color.esc_c()
-              << ": Добро пожаловать "
-              << user.s_userName << " " << user.s_userFamaly
-              << "\n\n";
+              << ": Добро пожаловать ";
+    chat::out_color_string(sColor, user.s_userColor);
+    std::cout << '\n';
 
+    //--------------------------------------------------------------------------
     char msgBuffer[chat::MAX_PACKET_SIZE];
     while (true) {
         // проверка на наличие в базе не прочитанных сообщений
@@ -87,7 +91,7 @@ int main()
         }
 
         ptl::scrs();
-        std::cout << user.s_userName << " " << user.s_userFamaly << '\n';
+        chat::out_color_string(sColor, user.s_userColor);
 
         // кому сообщение
         std::cout << "к: ";
@@ -127,9 +131,9 @@ int main()
                 std::cout << color.esc_tb(ptl::Color::CYAN)
                           << "chat"
                           << color.esc_c()
-                          << ": Добро пожаловать "
-                          << user.s_userName << " " << user.s_userFamaly
-                          << "\n\n";
+                          << ": Добро пожаловать ";
+                chat::out_color_string(sColor, user.s_userColor);
+                std::cout << '\n';
             }
             else if (!isOk_) {
                 // действия :
@@ -159,6 +163,8 @@ int main()
                     ptl::hcrs();
                 }
 
+                sColor += user.s_userName + ' ' + user.s_userFamaly + '\n';
+
                 ptl::clrscr();
                 chat::get_logo(chat::CLIENT);
                 chat::get_info();
@@ -167,9 +173,9 @@ int main()
                 std::cout << color.esc_tb(ptl::Color::CYAN)
                           << "chat"
                           << color.esc_c()
-                          << ": Добро пожаловать "
-                          << user.s_userName << " " << user.s_userFamaly
-                          << "\n\n";
+                          << ": Добро пожаловать ";
+                chat::out_color_string(sColor, user.s_userColor);
+                std::cout << '\n';
             }
             else if (!isOk_) {
                 // действия :
