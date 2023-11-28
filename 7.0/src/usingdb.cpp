@@ -335,7 +335,7 @@ db_edit(std::vector<std::string>& v)
               << "... "
               << std::flush;
 
-    std::string iHash_ = sha256(v[2]);
+    std::string iHash_ = sha256(v[3]);
 
     mysql_init(&mysql);
 
