@@ -48,7 +48,6 @@ int main()
               << ": Соединение с сервером установлено\n";
 
     bool isOk_{false};
-    std::string sColor {};
 
     ptl::scrs();
     isOk_ = chat::authorization(tcp, user, exchange);
@@ -66,8 +65,6 @@ int main()
         ptl::hcrs();
     }
 
-    sColor += user.s_userName + ' ' + user.s_userFamaly + '\n';
-
     ptl::clrscr();
     chat::get_logo(chat::CLIENT);
     chat::get_info();
@@ -76,9 +73,11 @@ int main()
     std::cout << color.esc_tb(ptl::Color::CYAN)
               << "chat"
               << color.esc_c()
-              << ": Добро пожаловать ";
-    chat::out_color_string(sColor, user.s_userColor);
-    std::cout << '\n';
+              << ": Добро пожаловать "
+              << user.s_userName 
+              << ' '
+              << user.s_userFamaly
+              << "\n\n";
 
     //--------------------------------------------------------------------------
     char msgBuffer[chat::MAX_PACKET_SIZE];
@@ -91,6 +90,9 @@ int main()
         }
 
         ptl::scrs();
+
+        std::string sColor {};
+        sColor += user.s_userName + ' ' + user.s_userFamaly + '\n';
         chat::out_color_string(sColor, user.s_userColor);
 
         // кому сообщение
@@ -99,6 +101,7 @@ int main()
         fgets(msgBuffer, sizeof(msgBuffer), stdin);
         msg.s_msgToWhom = chat::remove_last(msgBuffer, '\n');
 
+        //----------------------------------------------------------------------
         if (std::strncmp("-q", msg.s_msgToWhom.c_str(), 2) == 0 ||
             std::strncmp("-Q", msg.s_msgToWhom.c_str(), 2) == 0) {
 
@@ -109,6 +112,7 @@ int main()
             ptl::scrs();
             return 0;
         }
+        //----------------------------------------------------------------------
         else if (std::strncmp("-h", msg.s_msgToWhom.c_str(), 2) == 0 ||
                  std::strncmp("-H", msg.s_msgToWhom.c_str(), 2) == 0 ||
                  std::strncmp("-?", msg.s_msgToWhom.c_str(), 2) == 0) {
@@ -117,6 +121,7 @@ int main()
             chat::get_info();
             chat::get_help();
         }
+        //----------------------------------------------------------------------
         else if (std::strncmp("-e", msg.s_msgToWhom.c_str(), 2) == 0 ||
                  std::strncmp("-E", msg.s_msgToWhom.c_str(), 2) == 0) {
 
@@ -131,14 +136,17 @@ int main()
                 std::cout << color.esc_tb(ptl::Color::CYAN)
                           << "chat"
                           << color.esc_c()
-                          << ": Добро пожаловать ";
-                chat::out_color_string(sColor, user.s_userColor);
-                std::cout << '\n';
+                          << ": Добро пожаловать "
+                          << user.s_userName 
+                          << ' '
+                          << user.s_userFamaly
+                          << "\n\n";
             }
             else if (!isOk_) {
                 // действия :
             }
         }
+        //----------------------------------------------------------------------
         else if (std::strncmp("-d", msg.s_msgToWhom.c_str(), 2) == 0 ||
                  std::strncmp("-D", msg.s_msgToWhom.c_str(), 2) == 0) {
 
@@ -163,8 +171,6 @@ int main()
                     ptl::hcrs();
                 }
 
-                sColor += user.s_userName + ' ' + user.s_userFamaly + '\n';
-
                 ptl::clrscr();
                 chat::get_logo(chat::CLIENT);
                 chat::get_info();
@@ -173,14 +179,17 @@ int main()
                 std::cout << color.esc_tb(ptl::Color::CYAN)
                           << "chat"
                           << color.esc_c()
-                          << ": Добро пожаловать ";
-                chat::out_color_string(sColor, user.s_userColor);
-                std::cout << '\n';
+                          << ": Добро пожаловать "
+                          << user.s_userName 
+                          << ' '
+                          << user.s_userFamaly
+                          << "\n\n";
             }
             else if (!isOk_) {
                 // действия :
             }
         }
+        //----------------------------------------------------------------------
         else { // ввод сообщения и его отправка на сервер
             std::cout << "ч: ";
             std::memset(&msgBuffer[0], 0, sizeof(msgBuffer));
