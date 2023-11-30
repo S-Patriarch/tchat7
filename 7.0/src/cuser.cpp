@@ -22,10 +22,11 @@ authorization(ptl::pTCPClient& tcp,
     bool isResultReturn_ {false};
     char msgBuffer[chat::MAX_PACKET_SIZE];
 
-    std::cout << color.esc_tb(ptl::Color::CYAN)
-              << "chat"
-              << color.esc_c()
-              << ": Авторизация пользователя...\n\n";
+    std::cout 
+        << color.esc_tb(ptl::Color::CYAN)
+        << "chat"
+        << color.esc_c()
+        << ": Авторизация пользователя...\n\n";
 
     exchange.strSendAnswer = "AUTHORIZATION|";
 
@@ -73,10 +74,11 @@ registration(ptl::pTCPClient& tcp,
     bool isResultReturn_ {false};
     char msgBuffer[chat::MAX_PACKET_SIZE];
 
-    std::cout << color.esc_tb(ptl::Color::CYAN)
-              << "chat"
-              << color.esc_c()
-              << ": Регистрация пользователя...\n\n";
+    std::cout 
+        << color.esc_tb(ptl::Color::CYAN)
+        << "chat"
+        << color.esc_c()
+        << ": Регистрация пользователя...\n\n";
 
     exchange.strSendAnswer = "REGISTRATION|";
 
@@ -158,10 +160,11 @@ edit_user(ptl::pTCPClient& tcp,
     bool isResultReturn_ {false};
     char msgBuffer[chat::MAX_PACKET_SIZE];
 
-    std::cout << color.esc_tb(ptl::Color::CYAN)
-              << "chat"
-              << color.esc_c()
-              << ": Редактирование данных пользователя...\n\n";
+    std::cout 
+        << color.esc_tb(ptl::Color::CYAN)
+        << "chat"
+        << color.esc_c()
+        << ": Редактирование данных пользователя...\n\n";
 
     exchange.strSendAnswer = "EDIT|" + user.s_userEmail + "|";
 
@@ -210,11 +213,12 @@ out_message(ptl::pTCPClient& tcp,
         subStrings__ = chat::parsing_string(exchange.strReadRequest, '|');
 
         for (const auto& i : subStrings__) {
-            std::cout << color.esc_tb(ptl::Color::CYAN)
-                      << "M"
-                      << color.esc_c()
-                      << ": ";
-            std::cout << i << std::endl;
+            std::cout 
+                << color.esc_tb(ptl::Color::CYAN)
+                << "M"
+                << color.esc_c()
+                << ": ";
+            std::cout << i << '\n';
         }
 
         std::cout << std::endl;

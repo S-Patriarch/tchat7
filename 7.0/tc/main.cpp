@@ -42,10 +42,11 @@ int main()
         return 0;
     }
 
-    std::cout << color.esc_tb(ptl::Color::CYAN)
-              << "chat"
-              << color.esc_c()
-              << ": Соединение с сервером установлено\n";
+    std::cout 
+        << color.esc_tb(ptl::Color::CYAN)
+        << "chat"
+        << color.esc_c()
+        << ": Соединение с сервером установлено\n";
 
     bool isOk_{false};
 
@@ -56,10 +57,11 @@ int main()
     if (!isOk_) {
         // действия : регистрация | выход из чата
         std::cout << '\n';
-        std::cout << color.esc_tb(ptl::Color::CYAN)
-                  << "chat"
-                  << color.esc_c()
-                  << ": Такого пользователя нет, пройдите регистрацию\n";
+        std::cout 
+            << color.esc_tb(ptl::Color::CYAN)
+            << "chat"
+            << color.esc_c()
+            << ": Такого пользователя нет, пройдите регистрацию\n";
         ptl::scrs();
         isOk_ = chat::registration(tcp, user, exchange);
         ptl::hcrs();
@@ -70,14 +72,15 @@ int main()
     chat::get_info();
     chat::get_help();
 
-    std::cout << color.esc_tb(ptl::Color::CYAN)
-              << "chat"
-              << color.esc_c()
-              << ": Добро пожаловать "
-              << user.s_userName 
-              << ' '
-              << user.s_userFamaly
-              << "\n\n";
+    std::cout 
+        << color.esc_tb(ptl::Color::CYAN)
+        << "chat"
+        << color.esc_c()
+        << ": Добро пожаловать "
+        << user.s_userName 
+        << ' '
+        << user.s_userFamaly
+        << "\n\n";
 
     //--------------------------------------------------------------------------
     char msgBuffer[chat::MAX_PACKET_SIZE];
@@ -133,14 +136,15 @@ int main()
                 chat::get_info();
                 chat::get_help();
 
-                std::cout << color.esc_tb(ptl::Color::CYAN)
-                          << "chat"
-                          << color.esc_c()
-                          << ": Добро пожаловать "
-                          << user.s_userName 
-                          << ' '
-                          << user.s_userFamaly
-                          << "\n\n";
+                std::cout 
+                    << color.esc_tb(ptl::Color::CYAN)
+                    << "chat"
+                    << color.esc_c()
+                    << ": Добро пожаловать "
+                    << user.s_userName 
+                    << ' '
+                    << user.s_userFamaly
+                    << "\n\n";
             }
             else if (!isOk_) {
                 // действия :
@@ -162,10 +166,11 @@ int main()
                 if (!isOk_) {
                     // действия : регистрация | выход из чата
                     std::cout << '\n';
-                    std::cout << color.esc_tb(ptl::Color::CYAN)
-                              << "chat"
-                              << color.esc_c()
-                              << ": Такого пользователя нет, пройдите регистрацию\n";
+                    std::cout 
+                        << color.esc_tb(ptl::Color::CYAN)
+                        << "chat"
+                        << color.esc_c()
+                        << ": Такого пользователя нет, пройдите регистрацию\n";
                     ptl::scrs();
                     isOk_ = chat::registration(tcp, user, exchange);
                     ptl::hcrs();
@@ -176,14 +181,15 @@ int main()
                 chat::get_info();
                 chat::get_help();
 
-                std::cout << color.esc_tb(ptl::Color::CYAN)
-                          << "chat"
-                          << color.esc_c()
-                          << ": Добро пожаловать "
-                          << user.s_userName 
-                          << ' '
-                          << user.s_userFamaly
-                          << "\n\n";
+                std::cout 
+                    << color.esc_tb(ptl::Color::CYAN)
+                    << "chat"
+                    << color.esc_c()
+                    << ": Добро пожаловать "
+                    << user.s_userName 
+                    << ' '
+                    << user.s_userFamaly
+                    << "\n\n";
             }
             else if (!isOk_) {
                 // действия :

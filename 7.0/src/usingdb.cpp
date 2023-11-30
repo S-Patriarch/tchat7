@@ -6,6 +6,8 @@
 
 #include "../include/usingdb.h"
 
+#define E "\nE: "
+
 ////////////////////////////////////////////////////////////////////////////////
 namespace chat {
 
@@ -39,8 +41,7 @@ db_existence_check()
         mysql_free_result(res);
     }
     else {
-        // исключение
-        std::string strExcept_ { "E: " };
+        std::string strExcept_ { E };
         strExcept_ += mysql_error(&mysql); 
         throw ptl::pException(strExcept_.c_str());
     }
@@ -99,8 +100,7 @@ db_create()
             ") DEFAULT CHARACTER SET utf8");
     }
     else {
-        // исключение
-        std::string strExcept_ { "E: " };
+        std::string strExcept_ { E };
         strExcept_ += mysql_error(&mysql); 
         throw ptl::pException(strExcept_.c_str());
     }
@@ -180,7 +180,7 @@ db_authorization(std::vector<std::string>& v,
         }
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::cout << E << mysql_error(&mysql) << '\n';
     }
 
     mysql_close(&mysql);
@@ -259,7 +259,7 @@ db_registration(std::vector<std::string>& v,
         }
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::cout << E << mysql_error(&mysql) << '\n';
     }
 
     mysql_close(&mysql);
@@ -293,7 +293,7 @@ db_delete(std::vector<std::string>& v)
 
         std::int32_t queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            std::cout << E << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -307,7 +307,7 @@ db_delete(std::vector<std::string>& v)
         isResultReturn_ = true;
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::cout << E << mysql_error(&mysql) << '\n';
     }
 
     mysql_close(&mysql);
@@ -351,7 +351,7 @@ db_edit(std::vector<std::string>& v)
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            std::cout << E << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -373,7 +373,7 @@ db_edit(std::vector<std::string>& v)
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            std::cout << E << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -385,7 +385,7 @@ db_edit(std::vector<std::string>& v)
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            std::cout << E << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -393,7 +393,7 @@ db_edit(std::vector<std::string>& v)
         isResultReturn_ = true;
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::cout << E << mysql_error(&mysql) << '\n';
     }
 
     mysql_close(&mysql);
@@ -438,7 +438,7 @@ db_message_from_database(std::vector<std::string>& v,
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            //std::cout << "E: " << mysql_error(&mysql) << '\n';
+            //std::cout << E << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -459,7 +459,7 @@ db_message_from_database(std::vector<std::string>& v,
                     "WHERE id = " + idSender_;
                 queryState_ = mysql_query(&mysql, queryString_.c_str());
                 if (queryState_) {
-                    std::cout << "E: " << mysql_error(&mysql) << '\n';
+                    std::cout << E << mysql_error(&mysql) << '\n';
                     mysql_close(&mysql);
                     return isResultReturn_;
                 }
@@ -483,7 +483,7 @@ db_message_from_database(std::vector<std::string>& v,
         }
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::cout << E << mysql_error(&mysql) << '\n';
     }
 
     mysql_close(&mysql);
@@ -529,7 +529,7 @@ db_message_to_database(std::vector<std::string>& v)
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            std::cout << E << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -556,7 +556,7 @@ db_message_to_database(std::vector<std::string>& v)
 
             queryState_ = mysql_query(&mysql, queryString_.c_str());
             if (queryState_) {
-                std::cout << "E: " << mysql_error(&mysql) << '\n';
+                std::cout << E << mysql_error(&mysql) << '\n';
                 mysql_close(&mysql);
                 return isResultReturn_;
             }
@@ -565,7 +565,7 @@ db_message_to_database(std::vector<std::string>& v)
         }
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::cout << E << mysql_error(&mysql) << '\n';
     }
 
     mysql_close(&mysql);
@@ -603,7 +603,7 @@ db_message_status(std::vector<std::string>& v)
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            std::cout << "E: " << mysql_error(&mysql) << '\n';
+            std::cout << E << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -611,7 +611,7 @@ db_message_status(std::vector<std::string>& v)
         isResultReturn_ = true;
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::cout << E << mysql_error(&mysql) << '\n';
     }
 
     mysql_close(&mysql);
@@ -643,7 +643,7 @@ db_message_dalete()
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            //std::cout << "E: " << mysql_error(&mysql) << '\n';
+            //std::cout << E << mysql_error(&mysql) << '\n';
             mysql_close(&mysql);
             return isResultReturn_;
         }
@@ -651,7 +651,7 @@ db_message_dalete()
         isResultReturn_ = true;
     }
     else {
-        std::cout << "E: " << mysql_error(&mysql) << '\n';
+        std::cout << E << mysql_error(&mysql) << '\n';
     }
 
     mysql_close(&mysql);

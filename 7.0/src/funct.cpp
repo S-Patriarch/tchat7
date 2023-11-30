@@ -47,10 +47,11 @@ parsing_string(const std::string& str,
 void
 out_server_quit()
 {
-    std::cout << std::endl;
-    std::cout << "Клиент покинул чат\n"
-              << "Сервер завершает работу...\n"
-              << "До новых встреч\n";
+    std::cout << '\n';
+    std::cout 
+        << "Клиент покинул чат\n"
+        << "Сервер завершает работу...\n"
+        << "До новых встреч\n";
 }
 
 //------------------------------------------------------------------------------
@@ -59,12 +60,13 @@ out_client_quit(User& user)
 {
     ptl::pColor color;
 
-    std::cout << color.esc_tb(ptl::Color::CYAN)
-              << "chat"
-              << color.esc_c()
-              << ": До новых встреч "
-              << user.s_userName << " " << user.s_userFamaly
-              << '\n';
+    std::cout 
+        << color.esc_tb(ptl::Color::CYAN)
+        << "chat"
+        << color.esc_c()
+        << ": До новых встреч "
+        << user.s_userName << " " << user.s_userFamaly
+        << '\n';
 }
 
 //------------------------------------------------------------------------------
