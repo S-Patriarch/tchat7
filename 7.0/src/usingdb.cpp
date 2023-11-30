@@ -494,7 +494,8 @@ db_message_from_database(std::vector<std::string>& v,
 // v {MESSAGE_TO_DATABASE, id_sender, id_recipient, msg_text}
 //
 bool
-db_message_to_database(std::vector<std::string>& v)
+db_message_to_database(std::vector<std::string>& v,
+                       ptl::pLogger& logger)
 {
     MYSQL      mysql;
     MYSQL_RES* res;
@@ -529,7 +530,10 @@ db_message_to_database(std::vector<std::string>& v)
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
         if (queryState_) {
-            std::cout << E << mysql_error(&mysql) << '\n';
+            //std::cout << E << mysql_error(&mysql) << '\n';
+            std::string str_(mysql_error(&mysql));
+            std::string strLogger_ = "E: " + str_;
+            logger.write(strLogger_);
             mysql_close(&mysql);
             return isResultReturn_;
         }

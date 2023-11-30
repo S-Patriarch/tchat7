@@ -224,7 +224,18 @@ int main()
 
             isOk_ = chat::in_message(tcp, msg, exchange);
 
-            std::cout << '\n';
+            if (!isOk_) {
+                std::cout 
+                    << color.esc_tb(ptl::Color::CYAN)
+                    << "\nchat"
+                    << color.esc_c()
+                    << ": Такой пользователь не зарегистрирован в чате\n"
+                    << '\n';
+            }
+            else {
+                std::cout << '\n';
+            }
+
             ptl::hcrs();
         }
 

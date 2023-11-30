@@ -15,7 +15,7 @@
 
 #include "ptl/pconio.h"
 #include "ptl/pTCPServer.h"
-#include "ptl/plogger.h"
+//#include "ptl/plogger.h"
 
 #include <pthread.h>
 
@@ -255,7 +255,7 @@ int main()
         }
         // subStringRequest {MESSAGE_TO_DATABASE,id_sender,id_recipient,msg_text}
         else if (subStringRequest[0] == chat::MESSAGE_TO_DATABASE) {
-            isOk_ = chat::db_message_to_database(subStringRequest);
+            isOk_ = chat::db_message_to_database(subStringRequest, logger);
             strLogger_ =
                 chat::get_date() + " " + chat::get_time() +
                 " : Запись направленного сообщения... ";

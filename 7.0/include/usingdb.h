@@ -11,6 +11,7 @@
 #include "../include/funct.h"
 
 #include "ptl/pexcept.h"
+#include "ptl/plogger.h"
 
 #include "/usr/include/mysql/mysql.h"
 
@@ -67,7 +68,7 @@ db_message_from_database(std::vector<std::string>&, Exchange&);
 // Запись направленного сообщения клиента.
 //
 bool
-db_message_to_database(std::vector<std::string>&);
+db_message_to_database(std::vector<std::string>&, ptl::pLogger&);
 
 //------------------------------------------------------------------------------
 // Установление статуса сообщений клиента.
