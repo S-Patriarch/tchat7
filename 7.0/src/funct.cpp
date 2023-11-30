@@ -60,7 +60,8 @@ out_client_quit(User& user)
 {
     ptl::pColor color;
 
-    std::cout 
+    std::cout
+        << '\n'
         << color.esc_tb(ptl::Color::CYAN)
         << "chat"
         << color.esc_c()
