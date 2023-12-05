@@ -15,9 +15,10 @@
 
 #include "ptl/pconio.h"
 #include "ptl/pTCPServer.h"
-//#include "ptl/plogger.h"
+#include "ptl/plogger.h"
 
-#include <pthread.h>
+#include <thread>
+#include <functional>
 
 ////////////////////////////////////////////////////////////////////////////////
 int main()
