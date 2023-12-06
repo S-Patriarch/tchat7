@@ -6,8 +6,8 @@ set(ts_VERSION_MAJOR 7)
 set(ts_VERSION_MINOR 0)
 set(ts_VERSION "${ts_VERSION_MAJOR}.${ts_VERSION_MINOR}")
 
-#set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
+#set(CMAKE_BUILD_TYPE Debug)
 
 set(SOURCE
     main.cpp
