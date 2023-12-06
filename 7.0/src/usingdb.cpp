@@ -300,7 +300,7 @@ db_delete(std::vector<std::string>& v)
 
         queryString_ =
             "DELETE FROM message "
-            "WHERE id_recipient = " + v[1];
+            "WHERE id_recipient = " + v[1] + " OR id_sender = " + v[1];
 
         queryState_ = mysql_query(&mysql, queryString_.c_str());
 
