@@ -6,20 +6,7 @@ set(ts_VERSION_MAJOR 7)
 set(ts_VERSION_MINOR 0)
 set(ts_VERSION "${ts_VERSION_MAJOR}.${ts_VERSION_MINOR}")
 
-set_target_properties(
-    ${PROJECT_NAME} PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED ON
-)
-
 set(CMAKE_BUILD_TYPE Release)
-
-target_link_libraries(
-    ${PROJECT_NAME} PRIVATE
-    -pthread
-    -lssl
-    -lcrypto
-)
 
 set(SOURCE
     main.cpp
@@ -29,4 +16,17 @@ set(SOURCE
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE})
+
+target_link_libraries(
+    ${PROJECT_NAME} PRIVATE
+    -pthread
+    -lssl
+    -lcrypto
+)
+
+set_target_properties(
+    ${PROJECT_NAME} PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+)
 
